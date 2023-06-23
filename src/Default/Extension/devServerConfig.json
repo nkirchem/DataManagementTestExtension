@@ -5,6 +5,7 @@
     "extensionServableContentPath": "./obj/Debug/net6.0",
     "bundlerPath": "../../packages/microsoft.portal.tools/12.3.0.1/build/net6.0/bundle.dll",
     "extensionContentSource": "./Output",
+    "sideLoadTarget": "https://portal.azure.com/#view/DataManagementTest/DataTest4.ReactView",
     "plugins": [{
         "plugin": "./Client/ReactViews/node_modules/@microsoft/azureportal-reactview-tools/plugins/webpackDevMiddleware.js",
         "configuration": {
