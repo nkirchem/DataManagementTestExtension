@@ -36,7 +36,6 @@
     "exclude": [],
     "include": [
         "../Extension/Definitions/*",
-        "../Extension/Output/typings/ClientResources.d.ts",
         "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts",
         "test/**/*",
     ]

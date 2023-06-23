@@ -68,7 +68,6 @@
     </Content>
     <Content Include="tsconfig.json" />
     <Content Include="Client\ReactViews\tsconfig.json" />
-    <None Include="Client\ClientResources.d.ts" />
     <None Include="Client\TypeReferences.d.ts" />
     <None Include="Client\Views\ResourceKeysBlade.ts" />
     <None Include="Client\ReactViews\Test.ReactView.tsx" />
@@ -105,7 +104,7 @@
     <Exec
       WorkingDirectory="$(MSBuildThisFileDirectory)/Client/ReactViews"
       Condition="'$(Configuration)' == 'Debug'"
-      Command="npm run build" />
+      Command="npm run build:dev" />
     <Exec
       WorkingDirectory="$(MSBuildThisFileDirectory)/Client/ReactViews"
       Condition="'$(Configuration)' != 'Debug'"
