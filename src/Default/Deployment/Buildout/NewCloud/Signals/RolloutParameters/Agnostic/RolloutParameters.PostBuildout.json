@@ -1,0 +1,44 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/RolloutParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "wait": [
+        {
+            "name": "PerformGAValidationManualCompletion",
+            "properties": {
+                "duration": "P14D",
+                "description": "Wait for the PostBuildout Extension General Availability Validation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Post-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PostBuildout Extension General Availability Validation to complete.",
+                    "content": "Resolve this IcM once PostBuildout Extension General Availability Validation task(s) are completed."
+                }
+            }
+        },
+        {
+            "name": "ConfirmGAManualCompletion",
+            "properties": {
+                "duration": "P5D",
+                "description": "Wait for the PostBuildout Extension General Availability Confirmation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Post-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PostBuildout Extension General Availability Confirmation to complete.",
+                    "content": "Resolve this IcM once PostBuildout Extension General Availability Confirmation task(s) are completed."
+                }
+            }
+        }
+    ]
+}

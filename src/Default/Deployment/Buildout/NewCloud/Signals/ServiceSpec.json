@@ -1,0 +1,10 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/ServiceSpecification.json#",
+    "contentVersion": "1.0.0.0",
+    "providerType": "ServiceTree",
+    "identifier": "{ServiceTreeId}", // TO-DO: Replace at build-time or manually by service team
+    "description": "{ServiceDescription}", // TO-DO: Replace at build-time or manually by service team
+    "ownerGroupObjectId": "{OwnerGroupPrincipalId}", // TO-DO: Replace at build-time or manually by service team
+    "ownerGroupContactEmail": "{OwnerGroupEmail}", // TO-DO: Replace at build-time or manually by service team
+    "policyCheckEnabled": true
+}

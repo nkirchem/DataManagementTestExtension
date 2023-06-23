@@ -1,0 +1,33 @@
+{
+  "name": "extensiontemplate.e2etests",
+  "version": "0.1.0",
+  "description": "ExtensionTemplate.E2ETests",
+  "main": "",
+  "author": "",
+  "dependencies": {
+    "chromedriver": "88.0.0",
+    "mocha": "^2.3.4",
+    "mocha-jenkins-reporter": "^0.1.9",
+    "@microsoft/azureportal-test": "12.3.0",
+    "nconf": "^0.8.2",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.16",
+    "@types/mocha": "^5.2.5",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "restore": "npm install --no-optional",
+    "build": "npm run restore && node node_modules/typescript/lib/tsc.js -p ./tsconfig.json",
+    "e2e": "npm run build && mocha . --reporter mocha-jenkins-reporter",
+    "test": "mocha . --reporter mocha-jenkins-reporter",
+    "test-debug": "npm run build && node --inspect-brk mocha . --full-trace"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://dev.azure.com/msazure/One/_git/AzureUX-PortalFx"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

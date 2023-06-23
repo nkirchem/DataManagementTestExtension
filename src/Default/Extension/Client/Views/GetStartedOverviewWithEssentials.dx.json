@@ -1,0 +1,153 @@
+{
+  "$schema": "../../Definitions/dx.schema.json",
+  "stringSource": "../ClientResources",
+  "view": {
+    "kind": "GetStarted",
+    "export": true,
+    "parameters": [
+      {
+        "name": "id",
+        "type": "key"
+      }
+    ],
+    "resources": [
+      {
+        "id": "[parameters('id')]",
+        "apiVersion": "2014-04-01"
+      }
+    ],
+    "essentials": {
+      "properties": [
+        {
+          "displayName": "PropertyFromResourceLabel",
+          "value": "[resources().location]"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "kind": "OpenBladeCommand",
+        "id": "resourceCommand",
+        "icon": "MsPortalFx.Base.Images.Gear",
+        "displayName": "ResourceCommand",
+        "blade": {
+          "name": "ResourceKeysBlade",
+          "inContextPane": true,
+          "parameters": {
+            "id": "[parameters('id')]"
+          }
+        }
+      },
+      {
+        "kind": "MoveCommand",
+        "id": "moveCommand",
+        "displayName": "move",
+        "icon": "MsPortalFx.Base.Images.Move"
+      },
+      {
+        "kind": "RefreshCommand",
+        "id": "refreshCommandId",
+        "displayName": "Refresh",
+        "icon": "MsPortalFx.Base.Images.Refresh"
+      },
+      {
+        "kind": "DeleteCommand",
+        "id": "deleteCommand",
+        "displayName": "Delete",
+        "icon": "MsPortalFx.Base.Images.Delete",
+        "confirmation": {
+          "title": "DeleteResourceTitle",
+          "message": "DeleteResourceMessage"
+        },
+        "definition": {
+          "apiVersion": "2014-04-01"
+        }
+      }
+    ],
+    "properties": {
+      "title": "GetStarted_Tab1_Title",
+      "tabs": [
+        {
+          "title": "GetStarted_Tab1_Title",
+          "description": "GetStarted_Tab1_Description",
+          "learnMore": {
+            "url": "https://aka.ms/portalfx/",
+            "ariaLabel": "Learn more about Azure portal development"
+          },
+          "features": [
+            {
+              "title": "Tile_MenuTitle",
+              "description": "Tile_MenuDescription",
+              "icon": "MsPortalFx.Base.Images.Polychromatic.ManagementPortal",
+              "action": {
+                "menu": "mrsg_item1",
+                "displayName": "Tile_MenuLinkTitle"
+              }
+            },
+            {
+              "title": "Tile_ConsistencyTitle",
+              "description": "Tile_ConsistencyDescription",
+              "icon": "MsPortalFx.Base.Images.Polychromatic.BlobBlock",
+              "action": {
+                "url": "https://aka.ms/portalfx/designpatterns",
+                "displayName": "LearnMore"
+              }
+            },
+            {
+              "title": "Tile_OpenBladeTitle",
+              "description": "Tile_OpenBladeDescription",
+              "icon": "MsPortalFx.Base.Images.Polychromatic.JourneyHub",
+              "action": {
+                "displayName": "Tile_OpenBladeLinkTitle",
+                "blade": {
+                  "name": "ResourceKeysBlade",
+                  "parameters": {
+                    "id": "[parameters('id')]"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "GetStarted_Tab2_Tutotials",
+          "features": [
+            {
+              "title": "GetStarted_Tab2_Feature1_Title",
+              "description": "GetStarted_Tab2_Feature1_Description",
+              "learnMore": {
+                "url": "https://www.azure.com",
+                "ariaLabel": "Learn more about Azure"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=KXkBZCe699A"
+              }
+            },
+            {
+              "title": "GetStarted_Tab2_Feature2_Title",
+              "description": "GetStarted_Tab2_Feature2_Description",
+              "learnMore": {
+                "url": "https://www.microsoft.com",
+                "ariaLabel": "Learn more about Microsoft"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=XopvSz4GpEc"
+              }
+            },
+            {
+              "title": "GetStarted_Tab2_Feature3_Title",
+              "description": "GetStarted_Tab2_Feature3_Description",
+              "learnMore": {
+                "url": "https://github.com/",
+                "ariaLabel": "Learn more about GitHub"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=w3jLJU7DT5E"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

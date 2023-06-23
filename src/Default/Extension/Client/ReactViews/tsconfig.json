@@ -1,0 +1,25 @@
+{
+  "compileOnSave": true,
+  "extends": "./node_modules/@microsoft/azureportal-reactview-tools/tsconfig.webpack.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "../*",
+        "*"
+      ]
+    },
+    "types": [
+      "jest",
+      "./node_modules/@microsoft/azureportal-reactview-tools/imageTypings"
+    ]
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "./reactbuild.config.js",
+    "test-config/*"
+  ]
+}

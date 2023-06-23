@@ -1,0 +1,12 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/ConfigurationSpecification.json#",
+    "Settings": {
+        "Extension": {
+            "tenantId": "{TenantId}", // TO-DO: Replace at build-time or manually by service team
+            "environmentName": "Production",
+            "subscription": {
+                "key": "{SubscriptionKey}" // TO-DO: Replace at build-time or manually by service team
+            }
+        }
+    }
+}

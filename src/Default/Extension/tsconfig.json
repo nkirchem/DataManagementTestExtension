@@ -1,0 +1,42 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "Client",
+    "composite": true,
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": true,
+    "module": "amd",
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "outDir": "Output/Content/Scripts",
+    "paths": {
+      "*": [
+        "*"
+      ]
+    },
+    "lib": [
+      "dom",
+      "ES2018"
+    ],
+    "jsx": "react",
+    "removeComments": false,
+    "rootDir": "Client",
+    "sourceMap": true,
+    "strictBindCallApply": true,
+    "target": "es5",
+    "types": []
+  },
+  "include": [
+    "Client/**/*",
+    "Definitions/**/*"
+  ],
+  "exclude": [
+      "Client/ReactViews/**/*"
+  ]
+}

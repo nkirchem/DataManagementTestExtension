@@ -1,0 +1,9 @@
+{
+    "$schema": "https://gallery.azure.com/schemas/2018-02-12/UIDefinition.json#",
+    "createDefinition": {
+        "createBlade": {
+            "name": "CreateForm_dx",
+            "extension": "DataManagementTest"
+        }
+    }
+}

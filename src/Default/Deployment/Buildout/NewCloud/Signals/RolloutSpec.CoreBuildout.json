@@ -1,0 +1,172 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-04-01/RegionAgnosticRolloutSpecification.json#",
+    "contentVersion": "1.0.0.0",
+    "rolloutMetadata": {
+        "serviceModelPath": "ServiceModels\\Agnostic\\ServiceModel.CoreBuildout.json",
+        "scopeBindingsPath": "ScopeBindings.json",
+        "configuration": {
+            "serviceScope": {
+                "specPath": "ConfigurationSpec.json"
+            }
+        },
+        "name": "{PortalExtensionName} NewCloud Core-Buildout", // TO-DO: Replace at build-time or manually by service team
+        "rolloutType": "Major",
+        "buildSource": {
+            "parameters": {
+                "versionFile": "buildver.txt"
+            }
+        },
+        "notification": {
+            "email": {
+                "to": "{ContactEmail}", // TO-DO: Replace at build-time or manually by service team
+                "options": {
+                    "when": [
+                        "onStart",
+                        "onError",
+                        "onComplete"
+                    ]
+                }
+            },
+            "incident": {
+                "providerType": "IcM",
+                "properties": {
+                    "connectorId": "{IcmConnectorId}", // TO-DO: Replace at build-time or manually by service team
+                    "routingId": "{IcmRoutingId}" // TO-DO: Replace at build-time or manually by service team
+                }
+            }
+        }
+    },
+    "orchestratedSteps": [
+        {
+            "name": "CreateExtensionKeyVaultManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "CreateExtensionKeyVaultManualOperations",
+            "actions": [
+                "Wait/CreateExtensionKeyVaultManualCompletion"
+            ]
+        },
+        {
+            "name": "SetupExtensionKeyVaultEv2AccessPolicyManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "SetupExtensionKeyVaultEv2AccessPolicyManualOperations",
+            "actions": [
+                "Wait/SetupAKVEv2AccessPolicyManualCompletion"
+            ],
+            "dependsOn": [
+                "CreateExtensionKeyVaultManualOperations"
+            ]
+        },
+        {
+            "name": "CreateExtensionStorageAccountManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "CreateExtensionStorageAccountManualOperations",
+            "actions": [
+                "Wait/CreateStorageAccountManualCompletion"
+            ],
+            "dependsOn": [
+                "SetupExtensionKeyVaultEv2AccessPolicyManualOperations"
+            ]
+        },
+        {
+            "name": "CreateAKVManagedStorageAccountManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "CreateAKVManagedStorageAccountManualOperations",
+            "actions": [
+                "Wait/CreateAKVStorageAcctManualCompletion"
+            ],
+            "dependsOn": [
+                "CreateExtensionStorageAccountManualOperations"
+            ]
+        },
+        {
+            "name": "CreateExtensionAADAppIdManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "CreateExtensionAADAppIdManualOperations",
+            "actions": [
+                "Wait/CreateExtensionAADAppIdManualCompletion"
+            ],
+            "dependsOn": [
+                "CreateAKVManagedStorageAccountManualOperations"
+            ]
+        },
+        {
+            "name": "RegisterEZStartNewCloudConfigurationManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "RegisterEZStartNewCloudConfigurationManualOperations",
+            "actions": [
+                "Wait/RegisterEZStartManualCompletion"
+            ],
+            "dependsOn": [
+                "CreateExtensionAADAppIdManualOperations"
+            ]
+        },
+        {
+            "name": "CreateExtensionEndpointConfigurationManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "CreateExtensionEndpointConfigurationManualOperations",
+            "actions": [
+                "Wait/CreateEndpointConfigManualCompletion"
+            ],
+            "dependsOn": [
+                "RegisterEZStartNewCloudConfigurationManualOperations"
+            ]
+        },
+        {
+            "name": "UpdateServiceGroupRootReplacementsManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "UpdateServiceGroupRootReplacementsManualOperations",
+            "actions": [
+                "Wait/UpdateSGRReplacementsManualCompletion"
+            ],
+            "dependsOn": [
+                "CreateExtensionEndpointConfigurationManualOperations"
+            ]
+        },
+        {
+            "name": "WaitForPortalOnboardingCompletionManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "WaitForPortalOnboardingCompletionManualOperations",
+            "actions": [
+                "Wait/WaitForPortalOnboardingManualCompletion"
+            ],
+            "dependsOn": [
+                "UpdateServiceGroupRootReplacementsManualOperations"
+            ]
+        },
+        {
+            "name": "DeployExtensionManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "DeployExtensionManualOperations",
+            "actions": [
+                "Wait/DeployExtensionManualCompletion"
+            ],
+            "dependsOn": [
+                "WaitForPortalOnboardingCompletionManualOperations"
+            ]
+        },
+        {
+            "name": "PublishExtensionGalleryPackagesManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "PublishExtensionGalleryPackagesManualOperations",
+            "actions": [
+                "Wait/PublishGalleryPackagesManualCompletion"
+            ],
+            "dependsOn": [
+                "DeployExtensionManualOperations"
+            ]
+        },
+        {
+            "name": "PerformPublicPreviewValidationManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "PerformPublicPreviewValidationManualOperations",
+            "actions": [
+                "Wait/PerformValidationManualCompletion"
+            ],
+            "serviceValidation": {
+                "readiness": [
+                    "Service.Internal"
+                ]
+            }
+        }
+    ]
+}

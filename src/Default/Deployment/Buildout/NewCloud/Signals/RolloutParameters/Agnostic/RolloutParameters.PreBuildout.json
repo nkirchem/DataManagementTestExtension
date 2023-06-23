@@ -1,0 +1,82 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/RolloutParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "wait": [
+        {
+            "name": "CreateSubscriptionManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the PreBuildout Subscription Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Pre-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PreBuildout Subscription Creation to complete.",
+                    "content": "Resolve this IcM once PreBuildout Subscription Creation task(s) are completed."
+                }
+            }
+        },
+        {
+            "name": "SetupIcMManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the PreBuildout Setup IcM to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Pre-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PreBuildout Setup IcM to complete.",
+                    "content": "Resolve this IcM once the PreBuildout Setup IcM task(s) are completed. Guidance can be found at https://icmdocs.azurewebsites.net/onboarding/Support%20for%20National%20Clouds.html#adding-support-for-a-new-cloud-instance-to-your-existing-tenant-in-icm"
+                }
+            }
+        },
+        {
+            "name": "SetupSubPermissionsManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the PreBuildout Subscription Permissions to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Pre-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PreBuildout Subscription Permissions to complete.",
+                    "content": "Resolve this IcM once the PreBuildout Subscription Permissions task(s) are completed."
+                }
+            }
+        },
+        {
+            "name": "SetupSubEv2PermissionsManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the PreBuildout Subscription Ev2 Permissions to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Pre-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the PreBuildout Subscription Ev2 Permissions to complete.",
+                    "content": "Resolve this IcM once the PreBuildout Subscription Ev2 Permissions task(s) are completed. Guidance can be found at https://ev2docs.azure.net/features/buildout/gettingStarted.html#step-3-grant-permissions-to-ev2"
+                }
+            }
+        }
+    ]
+}

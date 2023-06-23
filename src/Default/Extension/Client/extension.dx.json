@@ -1,0 +1,6 @@
+{
+    "$schema": "../Definitions/dx.schema.json",
+    "extension": {
+        "name": "DataManagementTest"
+    }
+}

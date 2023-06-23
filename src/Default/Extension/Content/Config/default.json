@@ -1,0 +1,9 @@
+{
+    "enablePortalLogging": true,
+    "armApiVersion": "2014-04-01",
+    "reflowReadyDefault": true,
+    "trustedDomains": [],
+    "argbrowseoptions": {
+        "MyResource": "Force"
+    }
+}

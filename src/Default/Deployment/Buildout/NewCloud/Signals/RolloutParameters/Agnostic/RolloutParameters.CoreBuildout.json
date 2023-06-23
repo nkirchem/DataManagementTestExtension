@@ -1,0 +1,234 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/RolloutParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "wait": [
+        {
+            "name": "CreateExtensionKeyVaultManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout Key Vault Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Key Vault Creation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Key Vault Creation task(s) are completed. Guidance can be found at https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-powershell"
+                }
+            }
+        },
+        {
+            "name": "SetupAKVEv2AccessPolicyManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout Key Vault Access Policy Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Key Vault Access Policy Creation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Key Vault Access Policy Creation task(s) are completed. Guidance can be found at https://ev2docs.azure.net/features/security/secrets/permissions.html"
+                }
+            }
+        },
+        {
+            "name": "CreateStorageAccountManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout Storage Account Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Storage Account Creation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Storage Account Creation task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-onboarding.md#storage-container-url"
+                }
+            }
+        },
+        {
+            "name": "CreateAKVStorageAcctManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout AKV Managed Storage Account Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout AKV Managed Storage Account Creation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout AKV Managed Storage Account Creation task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-extensions-hosting-service-ev2.md#configuring-key-vault"
+                }
+            }
+        },
+        {
+            "name": "CreateExtensionAADAppIdManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout AAD App ID Creation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout AAD App ID Creation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout AAD App ID Creation task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-onboarding.md#1st-party-aad-app-id"
+                }
+            }
+        },
+        {
+            "name": "RegisterEZStartManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout Easy Start Configuration to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Easy Start Configuration to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Easy Start Configuration task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-onboarding.md#step-by-step-guide-to-portal-onboarding"
+                }
+            }
+        },
+        {
+            "name": "CreateEndpointConfigManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout Endpoint Configuration to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Endpoint Configuration to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Endpoint Configuration task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/b3a12974751fbd243387b9f4affb5f40e0e5036c/portal-sdk/generated/top-extensions-hosting-service.md#step-5-environment-specific-configuration-files"
+                }
+            }
+        },
+        {
+            "name": "UpdateSGRReplacementsManualCompletion",
+            "properties": {
+                "duration": "P3D",
+                "description": "Wait for the CoreBuildout ServiceGroupRootReplacements Update to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout ServiceGroupRootReplacements Update to complete.",
+                    "content": "Resolve this IcM once CoreBuildout ServiceGroupRootReplacements Update task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-extensions-hosting-service-ev2.md#configuring-builds-for-ev2-based-deployments"
+                }
+            }
+        },
+        {
+            "name": "WaitForPortalOnboardingManualCompletion",
+            "properties": {
+                "duration": "P14D",
+                "description": "Wait for the CoreBuildout Portal Onboarding to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Portal Onboarding to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Portal Onboarding task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/portal-sdk/generated/top-onboarding.md#how-to-verify-onboarding-status"
+                }
+            }
+        },
+        {
+            "name": "DeployExtensionManualCompletion",
+            "properties": {
+                "duration": "P5D",
+                "description": "Wait for the CoreBuildout Extension Deployment to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Extension Deployment to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Extension Deployment task(s) are completed."
+                }
+            }
+        },
+        {
+            "name": "PublishGalleryPackagesManualCompletion",
+            "properties": {
+                "duration": "P5D",
+                "description": "Wait for the CoreBuildout Extension Galley Package Publishing to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Extension Galley Package Publishing to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Extension Galley Package Publishing task(s) are completed. Guidance can be found at https://github.com/Azure/portaldocs/blob/main/gallery-sdk/generated/index-gallery.md#new-process"
+                }
+            }
+        },
+        {
+            "name": "PerformValidationManualCompletion",
+            "properties": {
+                "duration": "P7D",
+                "description": "Wait for the CoreBuildout Extension Public Preview Validation to complete",
+                "category": "Buildout and Deployment",
+                "topic": "Core-Buildout Workflow",
+                "completeOn": {
+                    "triggerOnAny": [
+                        "manual",
+                        "incidentResolution"
+                    ]
+                },
+                "notification": {
+                    "title": "Wait for the CoreBuildout Extension Public Preview Validation to complete.",
+                    "content": "Resolve this IcM once CoreBuildout Extension Public Preview Validation task(s) are completed."
+                }
+            }
+        }
+    ]
+}

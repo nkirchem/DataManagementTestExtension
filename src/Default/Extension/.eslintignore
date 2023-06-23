@@ -1,0 +1,8 @@
+Client/ReactViews/test-config/*
+**/*.d.ts
+**/_generated/**/*.ts
+**/node_modules/**
+**/out/**
+**/objd/**
+**/packages/**
+Definitions/**/*

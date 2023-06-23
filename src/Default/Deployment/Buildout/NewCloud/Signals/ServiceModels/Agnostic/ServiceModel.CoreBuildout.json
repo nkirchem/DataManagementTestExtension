@@ -1,0 +1,154 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-04-01/RegionAgnosticServiceModel.json#",
+    "contentVersion": "0.0.0.1",
+    "serviceMetadata": {
+        "serviceIdentifier": "{ServiceTreeId}", // TO-DO: Replace at build-time or manually by service team
+        "serviceGroup": "{ServiceGroup}.NewCloud.CoreBuildout",
+        "displayName": "{ServiceDisplayName}", // TO-DO: Replace at build-time or manually by service team
+        "serviceSpecificationPath": "ServiceSpec.json",
+        "environment": "$config(Extension.environmentName)",
+        "tenantId": "$config(Extension.tenantId)",
+        "buildout": {
+            "isForAutomatedBuildout": "True",
+            "enables": [],
+            "dependencies": [
+                {
+                    "name": "PreBuildoutDependency",
+                    "serviceIdentifier": "{ServiceTreeId}",
+                    "serviceGroup": "{ServiceGroup}.NewCloud.PreBuildout"
+                },
+                {
+                    "name": "Azure Key Vault",
+                    "serviceIdentifier": "51c86b53-37ee-4e99-9747-89d133719ac4"
+                },
+                {
+                    "name": "Xstore",
+                    "serviceIdentifier": "734379f9-2d2c-48d4-a52a-5c509f699de4"
+                },
+                {
+                    "name": "Azure Portal Hosting Service",
+                    "serviceIdentifier": "a0a46d95-77ef-4cb4-a6d8-6aa5a288c1db",
+                    "serviceGroup": "Microsoft.Azure.AzurePortalvNext.HostingSvc.NewCloud.CoreBuildout"
+                },
+                {
+                    "name": "Azure Portal",
+                    "serviceIdentifier": "a0a46d95-77ef-4cb4-a6d8-6aa5a288c1db",
+                    "serviceGroup": "Microsoft.Azure.AzurePortalvNext.Shell.NewCloud.CoreBuildout"
+                }
+            ]
+        }
+    },
+    "serviceResourceGroupDefinitions": [
+        {
+            "name": "CoreBuildoutManualOperations",
+            "subscriptionKey": "$config(Extension.subscription.key)",
+            "executionConstraint": {
+                "quantifier": "Once",
+                "level": "Cloud"
+            },
+            "scopeTags": [
+                {
+                    "name": "Extension"
+                }
+            ],
+            "serviceResourceDefinitions": [
+                {
+                    "name": "CreateExtensionKeyVaultManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "SetupExtensionKeyVaultEv2AccessPolicyManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "CreateExtensionStorageAccountManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "CreateAKVManagedStorageAccountManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "CreateExtensionAADAppIdManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "RegisterEZStartNewCloudConfigurationManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "CreateExtensionEndpointConfigurationManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "UpdateServiceGroupRootReplacementsManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "WaitForPortalOnboardingCompletionManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "DeployExtensionManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "PublishExtensionGalleryPackagesManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "PerformPublicPreviewValidationManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.CoreBuildout.json"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

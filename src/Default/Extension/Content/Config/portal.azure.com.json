@@ -1,0 +1,9 @@
+{
+    "armEndpoint": "https://management.azure.com",
+    "features":{
+        "regionSegments": true
+    },
+    "argbrowseoptions": {
+        "MyResource": "Force"
+    }
+}

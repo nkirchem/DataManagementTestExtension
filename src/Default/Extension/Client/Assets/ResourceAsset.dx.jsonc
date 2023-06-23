@@ -1,0 +1,137 @@
+﻿{
+    "$schema": "../../Definitions/dx.schema.json",
+    "stringSource": "../ClientResources",
+    "assetType": {
+      "name": "MyResource",
+      "resourceType": {
+        "name": "Providers.Test/statefulIbizaEngines",
+        "apiVersion": "2014-04-01"
+      },
+      "displayNames": {
+        "singular": "AssetTypeNames.Resource.singular",
+        "plural": "AssetTypeNames.Resource.plural",
+        "lowerSingular": "AssetTypeNames.Resource.lowerSingular",
+        "lowerPlural": "AssetTypeNames.Resource.lowerPlural"
+      },
+      "description": "AssetType.description",
+      "keywords": "AssetType.keywords",
+      "icon": "MsPortalFx.Base.Images.Polychromatic.CloudService",
+      "links": [
+        {
+          "title": "AssetType.link1Title",
+          "uri": "https://aka.ms/portalfx/designpatterns"
+        },
+        {
+          "title": "AssetType.link2Title",
+          "uri": "https://aka.ms/portalfx/browse"
+        }
+      ],
+      "part": {
+        "builtIn": "ResourcePart"
+      },
+      "create": {
+        "blade":{
+          "name": "CreateForm_dx"
+        }
+        // please remove blade object and uncomment the below to switch to Marketplace create scenario
+        //"marketplacePackageId": "Microsoft.GalleyPackage"
+      },
+      "browse": {
+        "type": "ResourceType",
+        "selectionCommands": [
+          {
+            "kind": "DeleteSelectionCommand",
+            "id": "deleteSelectionCommand",
+            "displayName": "delete",
+            "icon": "MsPortalFx.Base.Images.Delete",
+            "confirmation": {
+              "title": "deleteResourcesTitle",
+              "message": "deleteConfirmation",
+              "explicitConfirmationText": "yes"
+            },
+            "definitions": [
+              {
+                "apiVersion": "2014-04-01"
+              }
+            ]
+          }
+        ]
+      },
+      "menu": {
+        "overview": {
+          "displayName": "overview",
+          "icon": "MsPortalFx.Base.Images.Polychromatic.CloudService",
+          "id": "resourceOverviewId",
+          "keywords": "overviewKeywords",
+          "blade": {
+            "name": "GetStartedOverviewWithEssentials_dx",
+            "parameters": {
+              "id": "{resourceId}"
+            }
+          }
+        },
+        "groups": [
+          {
+            "id": "MsPortalFx.Assets.ManagementGroupId",
+            "displayName": "settings",
+            "items": [
+              {
+                "id": "mrsg_settings_item1",
+                "displayName": "resourceSettingMenuItem1",
+                "icon": "MsPortalFx.Base.Images.Polychromatic.Controls",
+                "blade": {
+                  "name": "ResourceKeysBlade",
+                  "parameters": {
+                    "id": "{resourceId}"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "displayName": "menuGroup1",
+            "id": "mrsg_item1",
+            "items": [
+              {
+                "id": "mrsg_item1",
+                "displayName": "item1",
+                "keywords": "item1Keywords",
+                "blade": {
+                  "name": "ResourceKeysBlade",
+                  "parameters": {
+                    "id": "{resourceId}"
+                  }
+                },
+                "icon": "MsPortalFx.Base.Images.Polychromatic.ResourceDefault"
+              },
+              {
+                "id": "mrsg_item2",
+                "displayName": "item2",
+                "keywords": "item2Keywords",
+                "blade": {
+                  "name": "ResourceKeysBlade",
+                  "parameters": {
+                    "id": "{resourceId}"
+                  }
+                },
+                "icon": "MsPortalFx.Base.Images.Polychromatic.Toolbox"
+              }
+            ]
+          }
+        ],
+        "options": {
+          "enableAlerts": true,
+          "enableDiagnostics": true,
+          "enableExportTemplate": true,
+          "enableLogs": true,
+          "enableMetrics": true,
+          "enableProperties": true,
+          "enableRbac": true,
+          "enableTags": true,
+          "enableSupportTroubleshootV2": true,
+          "enableSupportResourceAdvisor": true,
+          "enableSupportResourceHealth": true
+        }
+      }
+    }
+  }

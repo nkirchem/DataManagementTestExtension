@@ -1,0 +1,66 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-04-01/RegionAgnosticServiceModel.json#",
+    "contentVersion": "0.0.0.1",
+    "serviceMetadata": {
+        "serviceIdentifier": "{ServiceTreeId}", // TO-DO: Replace at build-time or manually by service team
+        "serviceGroup": "{ServiceGroup}.NewCloud.PostBuildout",
+        "displayName": "{ServiceDisplayName}", // TO-DO: Replace at build-time or manually by service team
+        "serviceSpecificationPath": "ServiceSpec.json",
+        "environment": "$config(Extension.environmentName)",
+        "tenantId": "$config(Extension.tenantId)",
+        "buildout": {
+            "isForAutomatedBuildout": "True",
+            "enables": [],
+            "dependencies": [
+                {
+                    "name": "CoreBuildoutDependency",
+                    "serviceIdentifier": "{ServiceTreeId}",
+                    "serviceGroup": "{ServiceGroup}.NewCloud.CoreBuildout"
+                },
+                {
+                    "name": "Azure Portal",
+                    "serviceIdentifier": "a0a46d95-77ef-4cb4-a6d8-6aa5a288c1db",
+                    "serviceGroup": "Microsoft.Azure.AzurePortalvNext.Shell.NewCloud.PostBuildout"
+                },
+                {
+                    "name": "Azure Portal Hosting Service",
+                    "serviceIdentifier": "a0a46d95-77ef-4cb4-a6d8-6aa5a288c1db",
+                    "serviceGroup": "Microsoft.Azure.AzurePortalvNext.HostingSvc.NewCloud.PostBuildout"
+                }
+            ]
+        }
+    },
+    "serviceResourceGroupDefinitions": [
+        {
+            "name": "PostBuildoutManualOperations",
+            "subscriptionKey": "$config(Extension.subscription.key)",
+            "executionConstraint": {
+                "quantifier": "Once",
+                "level": "Cloud"
+            },
+            "scopeTags": [
+                {
+                    "name": "Extension"
+                }
+            ],
+            "serviceResourceDefinitions": [
+                {
+                    "name": "PerformGeneralAvailabilityValidationManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PostBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "ConfirmGeneralAvailabilityManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PostBuildout.json"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

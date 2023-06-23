@@ -1,0 +1,59 @@
+{
+    "$schema": "../../Definitions/dx.schema.json",
+    "stringSource": "./CreateStrings.resjson",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "createTitle",
+            "steps": [
+                {
+                    "name": "step1",
+                    "label": "step1Label",
+                    "description": "step1Description",
+                    "elements": [
+                        {
+                            "type": "Microsoft.Common.ResourceScope",
+                            "name": "resourceScope",
+                            "resourceName": {
+                                "constraints": {
+                                    "validations": [
+                                        {
+                                            "regex": "^[a-z0-9A-Z]{1,30}$",
+                                            "message": "resourceNameValidationMessage"
+                                        }
+                                    ]
+                                },
+                                "toolTip": "resourceNameTooltip"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "label": "tags",
+                    "name": "tags",
+                    "elements": [
+                        {
+                            "type": "Microsoft.Common.TagsByResource",
+                            "name": "tagsByResource",
+                            "resources": [
+                                "Providers.Test/statefulIbizaEngines"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "deployment": {
+                "kind": "ResourceGroup",
+                "resourceGroupId": "[steps('step1').resourceScope.resourceGroup.id]",
+                "parameters": {
+                    "name": "[steps('step1').resourceScope.resourceName]",
+                    "location": "[steps('step1').resourceScope.location.name]",
+                    "tagsByResource": "[steps('tags').tagsByResource]"
+                },
+                "template": {
+                    "file": "./MyResourceDeploymentTemplate.json"
+                }
+            }
+        }
+    }
+}

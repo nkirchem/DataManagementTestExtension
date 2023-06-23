@@ -1,0 +1,6 @@
+[
+    {
+        "serviceIdentifier": "{ServiceTreeId}", // TO-DO: Replace at build-time or manually by service team
+        "serviceGroup": "{ServiceGroup}.NewCloud.CoreBuildout" // TO-DO: Replace at build-time or manually by service team
+    }
+]

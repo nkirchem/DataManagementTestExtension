@@ -1,0 +1,66 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-04-01/RegionAgnosticServiceModel.json#",
+    "contentVersion": "0.0.0.1",
+    "serviceMetadata": {
+        "serviceIdentifier": "{ServiceTreeId}", // TO-DO: Replace at build-time or manually by service team
+        "serviceGroup": "{ServiceGroup}.NewCloud.PreBuildout",
+        "displayName": "{ServiceDisplayName}", // TO-DO: Replace at build-time or manually by service team
+        "serviceSpecificationPath": "ServiceSpec.json",
+        "environment": "$config(Extension.environmentName)",
+        "tenantId": "$config(Extension.tenantId)",
+        "buildout": {
+            "isForAutomatedBuildout": "True",
+            "enables": [],
+            "dependencies": []
+        }
+    },
+    "serviceResourceGroupDefinitions": [
+        {
+            "name": "PreBuildoutManualOperations",
+            "subscriptionKey": "$config(Extension.subscription.key)",
+            "executionConstraint": {
+                "quantifier": "Once",
+                "level": "Cloud"
+            },
+            "scopeTags": [
+                {
+                    "name": "Extension"
+                }
+            ],
+            "serviceResourceDefinitions": [
+                {
+                    "name": "CreateSubscriptionManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "SetupIcMManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "SetupSubscriptionPermissionsManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PreBuildout.json"
+                        }
+                    }
+                },
+                {
+                    "name": "SetupSubscriptionEv2PermissionsManualOperations",
+                    "composedOf": {
+                        "extension": {
+                            "rolloutParametersPath": "RolloutParameters\\Agnostic\\RolloutParameters.PreBuildout.json"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

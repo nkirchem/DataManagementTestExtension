@@ -1,0 +1,57 @@
+{
+  "production": {
+    "ServiceGroupRootReplacementsVersion": 2,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "CertKeyVaultUri": "<KeyVaultHost>secrets/PortalHostingServiceDeploymentCertificate",
+    "StorageAccountCredentialsType": "SASToken",
+    "TargetStorageCredentialsKeyVaultUri": "<KeyVaultHost>secrets/<StorageAccountName>-Ev2DeploymentSas",
+    "TargetContainerName": "extension",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "FriendlyNames": [
+      "tip",
+      "MPACFlight"
+    ],
+    "SkipSafeDeployment": "false"
+  },
+  "test": {
+    "ServiceGroupRootReplacementsVersion": 2,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "CertKeyVaultUri": "<KeyVaultHost>secrets/PortalHostingServiceDeploymentCertificate",
+    "StorageAccountCredentialsType": "SASToken",
+    "TargetStorageCredentialsKeyVaultUri": "<KeyVaultHost>secrets/<StorageAccountName>-Ev2DeploymentSas",
+    "TargetContainerName": "extension",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "FriendlyNames": [],
+    "SkipSafeDeployment": "true"
+  },
+  "fairfax": {
+    "ServiceGroupRootReplacementsVersion": 2,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "CertKeyVaultUri": "<KeyVaultHost>secrets/PortalHostingServiceDeploymentCertificate",
+    "StorageAccountCredentialsType": "SASToken",
+    "TargetStorageCredentialsKeyVaultUri": "<KeyVaultHost>secrets/<StorageAccountName>-Ev2DeploymentSas",
+    "TargetContainerName": "extension",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "FriendlyNames": [
+      "tip"
+    ],
+    "SkipSafeDeployment": "false"
+  },
+  "mooncake": {
+    "ServiceGroupRootReplacementsVersion": 2,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "CertKeyVaultUri": "<KeyVaultHost>secrets/PortalHostingServiceDeploymentCertificate",
+    "StorageAccountCredentialsType": "SASToken",
+    "TargetStorageCredentialsKeyVaultUri": "<KeyVaultHost>secrets/<StorageAccountName>-Ev2DeploymentSas",
+    "TargetContainerName": "extension",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "FriendlyNames": [
+      "tip"
+    ],
+    "SkipSafeDeployment": "false"
+  }
+}

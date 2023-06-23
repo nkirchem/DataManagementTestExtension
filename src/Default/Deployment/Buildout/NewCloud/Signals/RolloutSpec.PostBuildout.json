@@ -1,0 +1,62 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-04-01/RegionAgnosticRolloutSpecification.json#",
+    "contentVersion": "1.0.0.0",
+    "rolloutMetadata": {
+        "serviceModelPath": "ServiceModels\\Agnostic\\ServiceModel.PostBuildout.json",
+        "scopeBindingsPath": "ScopeBindings.json",
+        "configuration": {
+            "serviceScope": {
+                "specPath": "ConfigurationSpec.json"
+            }
+        },
+        "name": "{PortalExtensionName} NewCloud Post-Buildout", // TO-DO: Replace at build-time or manually by service team
+        "rolloutType": "Major",
+        "buildSource": {
+            "parameters": {
+                "versionFile": "buildver.txt"
+            }
+        },
+        "notification": {
+            "email": {
+                "to": "{ContactEmail}", // TO-DO: Replace at build-time or manually by service team
+                "options": {
+                    "when": [
+                        "onStart",
+                        "onError",
+                        "onComplete"
+                    ]
+                }
+            },
+            "incident": {
+                "providerType": "IcM",
+                "properties": {
+                    "connectorId": "{IcmConnectorId}", // TO-DO: Replace at build-time or manually by service team
+                    "routingId": "{IcmRoutingId}" // TO-DO: Replace at build-time or manually by service team
+                }
+            }
+        }
+    },
+    "orchestratedSteps": [
+        {
+            "name": "PerformGeneralAvailabilityValidationManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "PerformGeneralAvailabilityValidationManualOperations",
+            "actions": [
+                "Wait/PerformGAValidationManualCompletion"
+            ]
+        },
+        {
+            "name": "ConfirmGeneralAvailabilityManualOperations",
+            "targetType": "ServiceResourceDefinition",
+            "targetName": "ConfirmGeneralAvailabilityManualOperations",
+            "actions": [
+                "Wait/ConfirmGAManualCompletion"
+            ],
+            "serviceValidation": {
+                "readiness": [
+                    "Service.GA"
+                ]
+            }
+        }
+    ]
+}
