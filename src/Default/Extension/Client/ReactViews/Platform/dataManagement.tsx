@@ -22,6 +22,15 @@ export function createContextConnect<Context>(context: React.Context<Context>) {
   };
 }
 
+/**
+ * Creates a connector function to hook up a component to one or more properties of a react context.
+ *
+ * The connector function will create a memoized component that will only re-render the supplied component when one of the
+ * context properties OR any additional/explicit props supplied to the component changes.
+ *
+ * @param context The context to connect to
+ * @returns Connector function that can be used to connect a component to the context
+ */
 export function createComponentConnector<Context>(context: React.Context<Context>) {
     return function <TComponentProps, TPropertyKeys extends keyof Context>(properties: Array<TPropertyKeys>, Component: React.FunctionComponent<TComponentProps & Pick<Context, TPropertyKeys>>) {
         const MemoizedComponent = React.memo((combinedProps: TComponentProps & Pick<Context, TPropertyKeys>) => {
