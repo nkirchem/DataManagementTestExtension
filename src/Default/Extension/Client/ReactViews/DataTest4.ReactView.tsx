@@ -54,3 +54,65 @@ const SubscriptionListWrapper = connectDataTest4Component(["initialSelectedSubsc
 );
 
 export default DataTest;
+
+/*
+// Below shows the other method of connecting components using createContextConnect and explicit React.memo 
+
+const connectNavHeader = createDataTest4ContextSelector((context) => ({
+  selectedSubscriptionId: context.selectedSubscriptionId,
+}));
+const NavHeaderWrapper = connectNavHeader(
+  React.memo(({ selectedSubscriptionId }) => (
+    <NavHeader currentViewName="DataTest4.ReactView" currentSubscriptionId={selectedSubscriptionId} />
+  ))
+);
+
+const connectSubscriptionCommandBar = createDataTest4ContextSelector((context) => ({
+  loading: context.subscriptionsLoading,
+  refresh: context.reloadSubscriptions,
+}));
+const SubscriptionCommandBarWrapper = connectSubscriptionCommandBar(
+  React.memo(({ loading, refresh }) => (
+    <SubscriptionCommandBar loading={loading} refresh={refresh} />
+  ))
+);
+
+const connectSubscriptionDetails = createDataTest4ContextSelector((context) => ({
+  selectedSubscriptionId: context.selectedSubscriptionId,
+  subscriptions: context.subscriptions,
+  subscriptionResources: context.subscriptionResources,
+  subscriptionResourcesLoading: context.subscriptionResourcesLoading,
+}));
+const SubscriptionDetailsWrapper = connectSubscriptionDetails(
+  React.memo(({ selectedSubscriptionId, subscriptions, subscriptionResources, subscriptionResourcesLoading }) => {
+    return (
+      <SubscriptionDetails
+        subscription={subscriptions?.find(
+          (s) => s.subscriptionId === selectedSubscriptionId
+        )}
+        subscriptionResources={subscriptionResources}
+        subscriptionResourcesLoading={subscriptionResourcesLoading}
+      />
+    );
+  })
+);
+
+const connectSubscriptionList = createDataTest4ContextSelector((context) => ({
+    dispatch: context.dispatch,
+    initialSelectedSubscriptionId: context.initialSelectedSubscriptionId,
+    loading: Boolean(context.subscriptionsLoading && !context.subscriptions),
+    subscriptions: context.subscriptions
+}));
+const SubscriptionListWrapper = connectSubscriptionList(
+  React.memo(({ dispatch, initialSelectedSubscriptionId, loading, subscriptions }) => (
+    <SubscriptionList
+        loading={loading}
+        initialSelectedSubscriptionId={initialSelectedSubscriptionId}
+        onSelectionChanged={selectedSubscriptionId => {
+          dispatch({ selectedSubscriptionId });
+        }}
+        subscriptions={subscriptions}
+    />
+  ))
+);
+*/
