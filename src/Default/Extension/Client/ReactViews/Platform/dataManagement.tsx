@@ -1,50 +1,57 @@
 import * as React from "react";
 
 /**
- * Helper that indirectly connects the data in a React Context to a component
- * that consumes the context by using a supplied selector function.
- *
- * @param context - Context to consume.
- * @returns Selector function that passes Context data to consuming component.
- */
-export function createContextConnect<Context>(context: React.Context<Context>) {
-  return function <Props, R = {}>(selector: (c: Context) => R) {
-    const connectedComponent =
-      (Comp: React.FunctionComponent<ReturnType<typeof selector> & Props>) =>
-      (props: Props) => {
-        const fullContext = React.useContext(context);
-        const data = selector(fullContext);
-
-        return <Comp {...data} {...props} />;
-      };
-
-    return connectedComponent;
-  };
-}
-
-/**
  * Creates a connector function to hook up a component to one or more properties of a react context.
  *
  * The connector function will create a memoized component that will only re-render the supplied component when one of the
- * context properties OR any additional/explicit props supplied to the component changes.
+ * selected context properties OR any additional/explicit props supplied to the component changes.
  *
  * @param context The context to connect to
  * @returns Connector function that can be used to connect a component to the context
  */
 export function createComponentConnector<Context>(context: React.Context<Context>) {
-    return function <TComponentProps, TPropertyKeys extends keyof Context>(properties: Array<TPropertyKeys>, Component: React.FunctionComponent<TComponentProps & Pick<Context, TPropertyKeys>>) {
-        const MemoizedComponent = React.memo((combinedProps: TComponentProps & Pick<Context, TPropertyKeys>) => {
-            return <Component {...combinedProps} />;
-        });
-        const connectorComponent: React.FunctionComponent<TComponentProps> = props => {
-            const fullContext = React.useContext(context);
-            const connectedData = properties.reduce((prev, current) => { prev[current] = fullContext[current]; return prev; }, {} as Pick<Context, TPropertyKeys>);
-            const combinedProps = { ...connectedData, ...props } as JSX.IntrinsicAttributes & React.PropsWithRef<TComponentProps & Pick<Context, TPropertyKeys>>;
-            return <MemoizedComponent {...combinedProps} />;
-        };
-        return connectorComponent;
+  return function <TComponentProps, TSelectedContext>(
+    selector: (context: Context) => TSelectedContext,
+    Component: React.FunctionComponent<TComponentProps & TSelectedContext>
+  ) {
+    const MemoizedComponent = React.memo((combinedProps: TComponentProps & TSelectedContext) => {
+      return <Component {...combinedProps} />;
+    });
+    const connectorComponent: React.FunctionComponent<TComponentProps> = (props) => {
+      const fullContext = React.useContext(context);
+      const connectedData = selector(fullContext);
+      const combinedProps = { ...connectedData, ...props } as JSX.IntrinsicAttributes &
+        React.PropsWithRef<TComponentProps & TSelectedContext>;
+      return <MemoizedComponent {...combinedProps} />;
     };
-  }
+    return connectorComponent;
+  };
+}
+
+/**
+ * Selects the specified properties from the given object and returns them as a new object.
+ *
+ * @param object Object whose properties to selectively pick
+ * @param propertyNames Names of the properties to pick
+ * @returns New object with only the selected properties
+ */
+export function selectProps<TObject extends Object, TPropertyKeys extends keyof TObject>(object: TObject, propertyNames: Array<TPropertyKeys>): Pick<TObject, TPropertyKeys> {
+  const selectedData = propertyNames.reduce((prev, current) => {
+    prev[current] = object[current];
+    return prev;
+  }, {} as Pick<TObject, TPropertyKeys>);
+  return selectedData;
+}
+
+/**
+ * Creates a context selector which picks the specified properties from the context.
+ * 
+ * @param propertyNames Names of the properties to select
+ * @returns A function that can be passed to createComponentConnector's selector parameter to pick only the specified properties from the context.
+ */
+export function getContextSelector<TObject extends Object, TPropertyKeys extends keyof TObject>(propertyNames: Array<TPropertyKeys>) {
+  return (context: TObject) => selectProps(context, propertyNames);
+}
 
 /**
  * Memoizes an object using React.useMemo and uses the keys of the object's properties'
