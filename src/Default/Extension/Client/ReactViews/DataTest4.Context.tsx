@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
 import { createComponentConnector, useMemoizeObject, usePropertyBag } from "./Platform/dataManagement";
+import { UseAsyncResult } from "./Platform/useAsync";
 import { useSubscriptionResources, useSubscriptions } from "./Api/subscriptionHooks";
 import { Resource } from "./Api/subscriptionApis";
 
@@ -12,14 +13,9 @@ export type IDataTest4Context = {
     initialSelectedSubscriptionId?: string;
     selectedSubscriptionId?: string;
     selectedSubscription?: Subscription;
-    subscriptions?: Subscription[];
-    subscriptionInitialLoad?: boolean;
-    subscriptionLoadError?: Error;
-    subscriptionsLoading?: boolean;
-    subscriptionResources?: Resource[];
-    subscriptionResourcesLoadError?: Error;
-    subscriptionResourcesLoading?: boolean;
-    reloadSubscriptions(): Promise<Subscription[]>;
+    subscriptions?: UseAsyncResult<Subscription[]>;
+    subscriptionsInitialLoad?: boolean;
+    subscriptionResources?: UseAsyncResult<Resource[]>;
     dispatch: React.Dispatch<Partial<DataTest4State>>;
 };
 
@@ -27,26 +23,21 @@ export type DataTest4State = {
     selectedSubscriptionId?: string;
 }
 
-const DataTest4Context = React.createContext<IDataTest4Context>({ dispatch: () => {}, reloadSubscriptions: async () => ([]) });
+const DataTest4Context = React.createContext<IDataTest4Context>({ dispatch: () => {} });
 
 export const DataTest4ContextProvider = React.memo((props: React.PropsWithChildren<IDataTest4ViewProps>) => {
     const [bladeState, dispatch] = usePropertyBag<DataTest4State>({ selectedSubscriptionId: props.selectedSubscriptionId });
 
-    const { result: subscriptions, refresh: reloadSubscriptions, error: subscriptionLoadError, loading: subscriptionsLoading } = useSubscriptions();
-    const { result: subscriptionResources, error: subscriptionResourcesLoadError, loading: subscriptionResourcesLoading } = useSubscriptionResources(bladeState.selectedSubscriptionId);
+    const subscriptions = useSubscriptions();
+    const subscriptionResources = useSubscriptionResources(bladeState.selectedSubscriptionId);
 
     const contextValue = useMemoizeObject({
         ...bladeState,
         initialSelectedSubscriptionId: props.selectedSubscriptionId,
-        selectedSubscription: subscriptions?.find(s => s.subscriptionId === bladeState.selectedSubscriptionId),
+        selectedSubscription: subscriptions.result?.find(s => s.subscriptionId === bladeState.selectedSubscriptionId),
         subscriptions,
-        subscriptionInitialLoad: Boolean(subscriptionsLoading && !subscriptions),
-        subscriptionLoadError,
-        subscriptionsLoading,
+        subscriptionsInitialLoad: Boolean(subscriptions.loading && !subscriptions.result),
         subscriptionResources,
-        subscriptionResourcesLoadError,
-        subscriptionResourcesLoading,
-        reloadSubscriptions,
         dispatch
     });
 

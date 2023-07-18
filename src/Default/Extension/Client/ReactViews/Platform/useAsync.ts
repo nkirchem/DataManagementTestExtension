@@ -148,10 +148,10 @@ export function useAsync<TResult, TError = Error>(asyncFunc: (args: IAsyncFuncAr
         };
     }, []);
 
-    return {
+    return React.useMemo(() => ({
         error: state.error,
         loading: state.loading,
         result: state.result,
         refresh
-    };
+    }), [state.error, state.loading, state.result, refresh]);
 }

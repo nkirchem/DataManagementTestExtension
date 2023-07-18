@@ -3,5 +3,6 @@ const { getReactViewBuild } = require("@microsoft/azureportal-reactview-tools/we
 const builder = getReactViewBuild();
 
 // Set relative path to the output directory and the devServerConfig.json file
+builder.enableDataFetcher();
 builder.setOutputDirectory("../../Output/Content/Scripts/ReactViews");
 builder.setDevServerConfigPath("../../devServerConfig.json");
