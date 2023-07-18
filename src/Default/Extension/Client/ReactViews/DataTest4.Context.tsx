@@ -55,4 +55,4 @@ export const DataTest4ContextProvider = React.memo((props: React.PropsWithChildr
     );
 });
 
-export const connectDataTest4Component = createComponentConnector(DataTest4Context);
+export const dataTest4Connector = createComponentConnector(DataTest4Context);

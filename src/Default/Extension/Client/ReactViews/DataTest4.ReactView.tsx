@@ -4,9 +4,8 @@ import { NavHeader } from "./Components/NavHeader";
 import { SubscriptionList } from "./Components/SubscriptionList";
 import { SubscriptionDetails } from "./Components/SubscriptionDetails";
 import { SubscriptionCommandBar } from "./Components/SubscriptionCommandBar";
-import { DataTest4ContextProvider, connectDataTest4Component } from "./DataTest4.Context";
+import { DataTest4ContextProvider, dataTest4Connector } from "./DataTest4.Context";
 import { IDataTestViewProps } from "./DataTest.types";
-import { getContextSelector } from "./Platform/dataManagement";
 
 const DataTest: React.FC<IDataTestViewProps> = (props) => {
   console.log(`Render DataTest4.ReactView - ${props.parameters.selectedSubscriptionId}`);
@@ -29,18 +28,17 @@ const DataTest: React.FC<IDataTestViewProps> = (props) => {
   );
 };
 
-const SubscriptionCommandBarWrapper = connectDataTest4Component(
-  getContextSelector(["subscriptionsLoading", "reloadSubscriptions"]),
+const SubscriptionCommandBarWrapper = dataTest4Connector.connectContextProps(
+  ["subscriptionsLoading", "reloadSubscriptions"],
   (props) => <SubscriptionCommandBar loading={props.subscriptionsLoading} refresh={props.reloadSubscriptions} />
 );
 
-const NavHeaderWrapper = connectDataTest4Component<{ currentViewName: string }, { selectedSubscriptionId?: string }>(
-  getContextSelector(["selectedSubscriptionId"]),
-  (props) => <NavHeader {...props} />
-);
+const NavHeaderWrapper = dataTest4Connector
+  .withComponentProps<{ currentViewName: string }>()
+  .connectContextProps(["selectedSubscriptionId"], (props) => <NavHeader {...props} />);
 
-const SubscriptionDetailsWrapper = connectDataTest4Component(
-  getContextSelector(["selectedSubscription", "subscriptionResources", "subscriptionResourcesLoading"]),
+const SubscriptionDetailsWrapper = dataTest4Connector.connectContextProps(
+  ["selectedSubscription", "subscriptionResources", "subscriptionResourcesLoading"],
   (props) => (
     <SubscriptionDetails
       subscription={props.selectedSubscription}
@@ -50,12 +48,12 @@ const SubscriptionDetailsWrapper = connectDataTest4Component(
   )
 );
 
-const SubscriptionListWrapper = connectDataTest4Component(
-  context => ({
+const SubscriptionListWrapper = dataTest4Connector.connect(
+  (context) => ({
     dispatch: context.dispatch,
     loading: context.subscriptionInitialLoad,
     initialSelectedSubscriptionId: context.initialSelectedSubscriptionId,
-    subscriptions: context.subscriptions
+    subscriptions: context.subscriptions,
   }),
   (props) => (
     <SubscriptionList
