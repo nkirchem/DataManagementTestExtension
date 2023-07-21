@@ -7,11 +7,11 @@ import { SubscriptionCommandBar } from "./Components/SubscriptionCommandBar";
 const DataTest: React.FC = () => {
     console.log(`Render DataTest1.ReactView`);
 
-    const { loading, refresh, result: subscriptions } = useSubscriptions({ bypassCache: true });
+    const { inProgress, loading, refresh, result: subscriptions } = useSubscriptions({ bypassCache: true });
     return <div>
         <NavHeader currentViewName="DataTest1.ReactView" />
-        <SubscriptionCommandBar loading={loading} refresh={refresh} />
-        <SubscriptionList loading={loading && !subscriptions} subscriptions={subscriptions} />
+        <SubscriptionCommandBar loading={inProgress} refresh={refresh} />
+        <SubscriptionList loading={loading} subscriptions={subscriptions} />
     </div>
 };
 

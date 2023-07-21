@@ -14,7 +14,6 @@ export type IDataTest4Context = {
     selectedSubscriptionId?: string;
     selectedSubscription?: Subscription;
     subscriptions?: UseAsyncResult<Subscription[]>;
-    subscriptionsInitialLoad?: boolean;
     subscriptionResources?: UseAsyncResult<Resource[]>;
     dispatch: React.Dispatch<Partial<DataTest4State>>;
 };
@@ -36,7 +35,6 @@ export const DataTest4ContextProvider = React.memo((props: React.PropsWithChildr
         initialSelectedSubscriptionId: props.selectedSubscriptionId,
         selectedSubscription: subscriptions.result?.find(s => s.subscriptionId === bladeState.selectedSubscriptionId),
         subscriptions,
-        subscriptionsInitialLoad: Boolean(subscriptions.loading && !subscriptions.result),
         subscriptionResources,
         dispatch
     });
