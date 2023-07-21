@@ -71,9 +71,9 @@ export interface UseAsyncOperationContext {
 export function useAsync<TResult, TDeps extends React.DependencyList, TError = Error>(
   asyncFunc: (...args: TDeps) => Promise<TResult>,
   deps: TDeps,
-  options: IUseAsyncOptions = {}
+  options?: IUseAsyncOptions
 ): UseAsyncResult<TResult, TError> {
-    return useAsyncWithContext(() => asyncFunc(...deps), deps, options || {});
+    return useAsyncWithContext(() => asyncFunc(...deps), deps, options);
 }
 
 /**
