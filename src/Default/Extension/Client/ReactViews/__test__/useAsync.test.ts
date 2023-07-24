@@ -15,6 +15,7 @@ describe("useAsync", () => {
     const { result, rerender } = renderHook(() => useAsync(() => Promise.resolve("text"), []));
     expect(result.current?.result).toBeUndefined();
     expect(result.current?.error).toBeUndefined();
+    expect(result.current?.completed).toBe(false);
     expect(result.current?.loading).toBe(true);
     expect(result.current?.inProgress).toBe(true);
 
@@ -22,6 +23,7 @@ describe("useAsync", () => {
 
     expect(result.current?.result).toEqual("text");
     expect(result.current?.error).toBeUndefined();
+    expect(result.current?.completed).toBe(true);
     expect(result.current?.loading).toBe(false);
     expect(result.current?.inProgress).toBe(false);
   });
@@ -30,6 +32,7 @@ describe("useAsync", () => {
     const { result, rerender } = renderHook(() => useAsync(() => Promise.reject("text"), []));
     expect(result.current?.result).toBeUndefined();
     expect(result.current?.error).toBeUndefined();
+    expect(result.current?.completed).toBe(false);
     expect(result.current?.loading).toBe(true);
     expect(result.current?.inProgress).toBe(true);
 
@@ -37,6 +40,7 @@ describe("useAsync", () => {
 
     expect(result.current?.result).toBeUndefined();
     expect(result.current?.error).toEqual("text");
+    expect(result.current?.completed).toBe(true);
     expect(result.current?.loading).toBe(false);
     expect(result.current?.inProgress).toBe(false);
   });

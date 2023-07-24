@@ -16,12 +16,18 @@ export interface UseAsyncResult<TResult, TError = Error> {
    * Note that this is false when updating without clearing the previous data.
    * This is a shortcut for checking: inProgress && !result && !error
    */
-  loading?: boolean;
+  loading: boolean;
+
+  /**
+   * True if the async operation has completed (successfully or not).
+   * This is reset when update is called with the `clearPreviousData` option.
+   */
+  completed: boolean;
 
   /**
    * True if the async operation is currently in progress
    */
-  inProgress?: boolean;
+  inProgress: boolean;
 
   /**
    * Rerun the async operation and update the result once complete
@@ -110,12 +116,13 @@ export function useAsyncWithContext<TResult, TError = Error>(
     lastOperationContext?: UseAsyncOperationContext;
     executeIndex: number;
     inProgress?: boolean;
+    completed: boolean;
     result?: TResult;
     error?: TError;
     unmounted?: boolean;
   }>();
   if (!stateRef.current) {
-    stateRef.current = { executeIndex: 0 };
+    stateRef.current = { executeIndex: 0, completed: false };
   }
   const state = stateRef.current;
 
@@ -132,6 +139,7 @@ export function useAsyncWithContext<TResult, TError = Error>(
     if (state.executeIndex === executeIndex && !state.unmounted) {
       state.result = result;
       state.error = error;
+      state.completed = true;
       state.inProgress = false;
       state.lastOperationContext = undefined;
       setIteration((i) => i + 1);
@@ -140,6 +148,7 @@ export function useAsyncWithContext<TResult, TError = Error>(
 
   function clearPreviousOperation(clearResult: boolean) {
     if (clearResult) {
+      state.completed = false;
       state.result = undefined;
       state.error = undefined;
     }
@@ -220,6 +229,7 @@ export function useAsyncWithContext<TResult, TError = Error>(
       error: state.error,
       inProgress: Boolean(state.inProgress),
       loading: Boolean(state.inProgress && !state.result && !state.error),
+      completed: state.completed,
       result: state.result,
       update,
     }),
