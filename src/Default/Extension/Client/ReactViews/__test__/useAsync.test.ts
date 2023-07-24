@@ -109,7 +109,7 @@ describe("useAsync", () => {
     expect(mock).toHaveBeenCalledTimes(2);
   });
 
-  test("invoking refresh re-runs a completed result", async() => {
+  test("invoking update re-runs a completed result", async() => {
     const mock = jest.fn().mockResolvedValue("text");
     let context: UseAsyncOperationContext;
     const { result, rerender } = renderHook(() => useAsyncWithContext(ctx => {
@@ -118,18 +118,18 @@ describe("useAsync", () => {
     }, []));
     await act(async () => { rerender() });
     expect(result.current?.result).toEqual("text");
-    expect(context.refreshing).toBe(false);
+    expect(context.updating).toBe(false);
     expect(mock).toHaveBeenCalledTimes(1);
 
-    // Refresh without clearing previous result
+    // Update without clearing previous result
     mock.mockResolvedValue("text2");
     act(() => {
-      result.current?.refresh();
+      result.current?.update();
     });
     expect(result.current?.result).toEqual("text");
     expect(result.current?.loading).toEqual(false);
     expect(result.current?.inProgress).toEqual(true);
-    expect(context.refreshing).toBe(true);
+    expect(context.updating).toBe(true);
     expect(mock).toHaveBeenCalledTimes(2);
 
     await act(async () => { rerender() });
@@ -138,7 +138,7 @@ describe("useAsync", () => {
     expect(result.current?.inProgress).toEqual(false);
   });
 
-  test("invoking refresh with clearPreviousData removes a prior result", async() => {
+  test("invoking update with clearPreviousData removes a prior result", async() => {
     const mock = jest.fn().mockResolvedValue("text");
     let context: UseAsyncOperationContext;
     const { result, rerender } = renderHook(() => useAsyncWithContext(ctx => {
@@ -147,18 +147,18 @@ describe("useAsync", () => {
     }, []));
     await act(async () => { rerender() });
     expect(result.current?.result).toEqual("text");
-    expect(context.refreshing).toBe(false);
+    expect(context.updating).toBe(false);
     expect(mock).toHaveBeenCalledTimes(1);
 
-    // Refresh without clearing previous result
+    // Update without clearing previous result
     mock.mockResolvedValue("text2");
     act(() => {
-      result.current?.refresh(true);
+      result.current?.update({ clearPreviousData: true });
     });
     expect(result.current?.result).toBeUndefined();
     expect(result.current?.loading).toEqual(true);
     expect(result.current?.inProgress).toEqual(true);
-    expect(context.refreshing).toBe(true);
+    expect(context.updating).toBe(true);
     expect(mock).toHaveBeenCalledTimes(2);
 
     await act(async () => { rerender() });
@@ -167,22 +167,22 @@ describe("useAsync", () => {
     expect(result.current?.inProgress).toEqual(false);
   });
 
-  test("refresh can run a disabled operation when ignoreDisabled is true", async() => {
+  test("update can run a disabled operation when ignoreDisabled is true", async() => {
     const mock = jest.fn().mockResolvedValue("text");
     const { result, rerender } = renderHook(() => useAsync(mock, [], { disabled: true }));
     await act(async () => { rerender() });
     expect(mock).toHaveBeenCalledTimes(0);
 
-    // Refresh without ignoreDisabled should no-op
+    // Update without ignoreDisabled should no-op
     act(() => {
-      result.current?.refresh(false, false);
+      result.current?.update({ ignoreDisabled: false });
     });
     await act(async () => { rerender() });
     expect(mock).toHaveBeenCalledTimes(0);
 
-    // Refresh with ignoreDisabled should run the operation
+    // Update with ignoreDisabled should run the operation
     act(() => {
-      result.current?.refresh(false, true);
+      result.current?.update({ ignoreDisabled: true });
     });
     await act(async () => { rerender() });
     expect(mock).toHaveBeenCalledTimes(1);

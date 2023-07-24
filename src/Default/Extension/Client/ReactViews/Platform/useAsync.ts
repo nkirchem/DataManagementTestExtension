@@ -13,7 +13,7 @@ export interface UseAsyncResult<TResult, TError = Error> {
 
   /**
    * True if the operation has not been completed and is currently in progress.
-   * Note that this is false when refreshing without clearing the previous data.
+   * Note that this is false when updating without clearing the previous data.
    * This is a shortcut for checking: inProgress && !result && !error
    */
   loading?: boolean;
@@ -26,18 +26,29 @@ export interface UseAsyncResult<TResult, TError = Error> {
   /**
    * Rerun the async operation and update the result once complete
    *
-   * @param clearPreviousData If true, the previous result and error will be cleared
-   * @param ignoreDisabled If true (the default), the async operation will be executed even if it is disabled
+   * @param options Update options
    *
    * @returns Promise that resolves when the async operation is complete
    */
-  refresh: (clearPreviousData?: boolean, ignoreDisabled?: boolean) => Promise<TResult>;
+  update: (options?: IUseAsyncResultUpdateOptions) => Promise<{ result?: TResult; error?: TError }>;
 }
 
-export interface IUseAsyncOptions {
+export interface IUseAsyncResultUpdateOptions {
+    /**
+     * If true, the previous result and error will be cleared while the update operation is in progress.
+     */
+    clearPreviousData?: boolean;
+
+    /**
+     * If true (the default), the async operation will be executed even if it is disabled
+     */
+    ignoreDisabled?: boolean;
+}
+
+export interface UseAsyncOptions {
   /**
    * If true, the async operation will not be executed by the useAsync call.
-   * It can still be invoked from the refresh method of the result.
+   * It can still be invoked from the update method of the result.
    */
   disabled?: boolean;
 
@@ -50,9 +61,9 @@ export interface IUseAsyncOptions {
 
 export interface UseAsyncOperationContext {
   /**
-   * If true, the async operation is being refreshed
+   * If true, the async operation is being updated (via update method)
    */
-  refreshing?: boolean;
+  updating?: boolean;
 
   /**
    * If true, the async operation has been canceled (via unmount or re-render with different async operation)
@@ -63,39 +74,39 @@ export interface UseAsyncOperationContext {
 /**
  * Hook that executes an async function and returns the result, error, and loading state. Updates state when the async function is complete.
  *
- * @param asyncFunc An asynchronous operation to execute
+ * @param asyncOperation An asynchronous operation to execute
  * @param deps React dependencies that will trigger a re-execution of the async function
  * @param options Hook options such as to disable execution of the operation
  * @returns An object containing the result, error, and loading state of the async operation
  */
 export function useAsync<TResult, TDeps extends React.DependencyList, TError = Error>(
-  asyncFunc: (...args: TDeps) => Promise<TResult>,
+  asyncOperation: (...args: TDeps) => Promise<TResult>,
   deps: TDeps,
-  options?: IUseAsyncOptions
+  options?: UseAsyncOptions
 ): UseAsyncResult<TResult, TError> {
-    return useAsyncWithContext(() => asyncFunc(...deps), deps, options);
+    return useAsyncWithContext(() => asyncOperation(...deps), deps, options);
 }
 
 /**
  * Hook that executes an async function and returns the result, error, and loading state. Updates state when the async function is complete.
- * The asyncFunc for this hook is passed a context object that contains information about the current operation like whether it has been canceled or is being refreshed.
+ * The asyncOperation for this hook is passed a context object that contains information about the current operation like whether it has been canceled or is being updated.
  *
- * @param asyncFunc An asynchronous operation to execute
+ * @param asyncOperation An asynchronous operation to execute
  * @param deps React dependencies that will trigger a re-execution of the async function
  * @param options Hook options such as to disable execution of the operation
  * @returns An object containing the result, error, and loading state of the async operation
  */
 export function useAsyncWithContext<TResult, TError = Error>(
-  asyncFunc: (context: UseAsyncOperationContext) => Promise<TResult>,
+  asyncOperation: (context: UseAsyncOperationContext) => Promise<TResult>,
   deps: React.DependencyList,
-  options: IUseAsyncOptions = {}
+  options: UseAsyncOptions = {}
 ): UseAsyncResult<TResult, TError> {
   const { disabled = false } = options;
   const [, setIteration] = React.useState(0);
 
   const stateRef = React.useRef<{
-    asyncFunc?: (context: UseAsyncOperationContext) => Promise<TResult>;
-    lastExecuteOperation?: (refreshing?: boolean) => Promise<TResult>;
+    asyncOperation?: (context: UseAsyncOperationContext) => Promise<TResult>;
+    lastExecuteOperation?: (updating?: boolean) => Promise<{ result?: TResult; error?: TError; }>;
     lastOperationContext?: UseAsyncOperationContext;
     executeIndex: number;
     inProgress?: boolean;
@@ -108,14 +119,14 @@ export function useAsyncWithContext<TResult, TError = Error>(
   }
   const state = stateRef.current;
 
-  state.asyncFunc = options.debounce ? async (context: UseAsyncOperationContext) => {
+  state.asyncOperation = options.debounce ? async (context: UseAsyncOperationContext) => {
     await delay(options.debounce);
     if (!context.canceled) {
-        return asyncFunc(context);
+        return asyncOperation(context);
     } else {
         throw new Error("Debounced operation canceled");
     }
-  } : asyncFunc;
+  } : asyncOperation;
 
   function setResult(executeIndex: number, result: TResult | undefined, error: TError | undefined) {
     if (state.executeIndex === executeIndex && !state.unmounted) {
@@ -144,28 +155,29 @@ export function useAsyncWithContext<TResult, TError = Error>(
 
   // Memoize the operation based on the supplied dependencies and the disabled state
   const executeOperation = React.useCallback(
-    (refreshing: boolean) => {
+    (updating: boolean): Promise<{ result?: TResult; error?: TError; }> => {
       const executeIndex = ++state.executeIndex;
       state.inProgress = true;
-      state.lastOperationContext = { refreshing };
+      state.lastOperationContext = { updating };
 
-      return state.asyncFunc(state.lastOperationContext).then(
+      return state.asyncOperation(state.lastOperationContext).then(
         (result) => {
           setResult(executeIndex, result, undefined);
-          return result;
+          return { result };
         },
         (error) => {
           setResult(executeIndex, undefined, error);
-          return undefined;
+          return { error };
         }
       );
     },
     [...deps, disabled]
   );
 
-  // Memoize a refresh operation based on executeOperation
-  const refresh = React.useCallback(
-    async (clearPreviousData: boolean, ignoreDisabled = true) => {
+  // Memoize a update operation based on executeOperation
+  const update = React.useCallback(
+    async (options: IUseAsyncResultUpdateOptions = {}) => {
+      const { clearPreviousData, ignoreDisabled = true } = options;
       const prevLoading = state.inProgress;
       clearPreviousOperation(clearPreviousData);
 
@@ -177,6 +189,8 @@ export function useAsyncWithContext<TResult, TError = Error>(
         }
         return executeOperation(true);
       }
+
+      return {};
     },
     [executeOperation, disabled]
   );
@@ -207,9 +221,9 @@ export function useAsyncWithContext<TResult, TError = Error>(
       inProgress: Boolean(state.inProgress),
       loading: Boolean(state.inProgress && !state.result && !state.error),
       result: state.result,
-      refresh,
+      update,
     }),
-    [state.error, state.inProgress, state.result, refresh]
+    [state.error, state.inProgress, state.result, update]
   );
 }
 
