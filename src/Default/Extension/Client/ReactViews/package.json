@@ -18,7 +18,7 @@
     "build:dev": "reactview-build --development"
   },
   "devDependencies": {
-    "@microsoft/azureportal-reactview-tools": "1.2.2",
+    "@microsoft/azureportal-reactview-tools": "1.2.6",
     "@testing-library/react": "11.0.4",
     "@testing-library/react-hooks": "8.0.1",
     "@types/jest": "26.0.12",
