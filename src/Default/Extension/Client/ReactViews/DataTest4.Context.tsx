@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
-import { createComponentConnector, useMemoizeObject, usePropertyBag } from "./Platform/dataManagement";
+import { createComponentConnector, usePropertyBag } from "./Platform/dataManagement";
 import { UseAsyncResult } from "./Platform/useAsync";
 import { useSubscriptionResources, useSubscriptions } from "./Api/subscriptionHooks";
 import { Resource } from "./Api/subscriptionApis";
@@ -30,14 +30,14 @@ export const DataTest4ContextProvider = React.memo((props: React.PropsWithChildr
     const subscriptions = useSubscriptions();
     const subscriptionResources = useSubscriptionResources(bladeState.selectedSubscriptionId);
 
-    const contextValue = useMemoizeObject({
+    const contextValue = {
         ...bladeState,
         initialSelectedSubscriptionId: props.selectedSubscriptionId,
         selectedSubscription: subscriptions.result?.find(s => s.subscriptionId === bladeState.selectedSubscriptionId),
         subscriptions,
         subscriptionResources,
         dispatch
-    });
+    };
 
     return (
         <DataTest4Context.Provider value={contextValue}>{props.children}</DataTest4Context.Provider>

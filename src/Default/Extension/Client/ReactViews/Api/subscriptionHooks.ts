@@ -4,14 +4,14 @@ import { getSubscriptionResources, getSubscriptions, IGetSubscriptionOptions, Re
 
 export function useSubscriptions(options: IGetSubscriptionOptions = {}): UseAsyncResult<Subscription[]> {
   return useAsyncWithContext(
-    ({ updating }) => getSubscriptions({ ...options, bypassCache: options.bypassCache || updating }),
+    ({ refreshing }) => getSubscriptions({ ...options, bypassCache: options.bypassCache || refreshing }),
     []
   );
 }
 
 export function useSubscriptionResources(subscriptionId: string): UseAsyncResult<Resource[]> {
   return useAsyncWithContext(
-    ({ updating }) => getSubscriptionResources(subscriptionId, { bypassCache: updating }),
+    ({ refreshing }) => getSubscriptionResources(subscriptionId, { bypassCache: refreshing }),
     [subscriptionId],
     { disabled: !subscriptionId }
   );

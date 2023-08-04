@@ -29,7 +29,7 @@ const DataTest: React.FC<IDataTestViewProps> = (props) => {
 };
 
 const SubscriptionCommandBarWrapper = dataTest4Connector.connect(
-  ctx => ({ loading: ctx.subscriptions?.inProgress, refresh: ctx.subscriptions?.update }),
+  ctx => ({ loading: ctx.subscriptions?.inProgress, refresh: ctx.subscriptions?.refresh }),
   (props) => <SubscriptionCommandBar {...props} />
 );
 
