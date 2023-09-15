@@ -1,18 +1,19 @@
-import { NavHeader } from "./Components/NavHeader";
+import { setTitle } from "@microsoft/azureportal-reactview/Az";
 import * as React from "react";
-import { useSubscriptions } from "./Api/subscriptionHooks";
+import { useSubscriptions } from "../../api/hooks/subscriptionHooks";
 import { SubscriptionList } from "./Components/SubscriptionList";
 import { SubscriptionCommandBar } from "./Components/SubscriptionCommandBar";
 
-const DataTest: React.FC = () => {
-    console.log(`Render DataTest2.ReactView`);
+setTitle("Subscriptions");
+
+const SubscriptionListView: React.FC = () => {
+    console.log(`Render SubscriptionListView`);
 
     const { inProgress, loading, result: subscriptions, refresh } = useSubscriptions();
     return <div>
-        <NavHeader currentViewName="DataTest2.ReactView" />
         <SubscriptionCommandBar loading={inProgress} refresh={refresh} />
         <SubscriptionList loading={loading} subscriptions={subscriptions} />
     </div>
 };
 
-export default DataTest;
+export default SubscriptionListView;

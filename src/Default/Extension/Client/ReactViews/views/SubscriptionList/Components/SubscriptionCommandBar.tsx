@@ -1,4 +1,4 @@
-import { CommandBar } from "@fluentui/react";
+import { CommandBar } from "@microsoft/azureportal-reactview/CommandBar";
 import * as React from "react";
 
 export interface ISubscriptionCommandBarProps {
