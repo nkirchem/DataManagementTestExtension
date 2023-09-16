@@ -1,6 +1,6 @@
 import { IResourceListViewProps } from "./ResourceListView.types";
-import { getSubscription } from "../../api/queries/subscriptionApis";
+import { subscriptionQuery } from "../../api/queries/subscriptionQueries";
 
 export function fetchData(props: IResourceListViewProps){
-    getSubscription(props.parameters.subscriptionId);
+    subscriptionQuery.query(props.parameters.subscriptionId).forceGet();
 }

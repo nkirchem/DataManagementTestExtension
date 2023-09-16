@@ -2,9 +2,9 @@ import * as React from "react";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
 import { ResourceGroup } from "@microsoft/azureportal-reactview/ResourceManagement";
 import { createComponentConnector, UseAsyncResult, usePropertyBag } from "@microsoft/azureportal-reactview/DataManagement";
-import { useSubscriptionResources, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
+import { useResourcesByResourceGroup, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
 import { useSubscription } from "../../api/hooks/subscriptionHooks";
-import { Resource } from "../../api/queries/resourceApis";
+import { Resource } from "../../api/queries/resourceQueries";
 
 export type IResourceListViewContext = {
     selectedResource?: Resource;
@@ -27,9 +27,9 @@ export const ResourceListViewContextProvider = React.memo((props: React.PropsWit
     const [bladeState, dispatch] = usePropertyBag<ResourceListViewState>({});
 
     const subscription = useSubscription(props.subscriptionId);
-    const subscriptionResources = useSubscriptionResources(props.subscriptionId, bladeState.selectedResourceGroup?.name);
+    const subscriptionResources = useResourcesByResourceGroup(props.subscriptionId, bladeState.selectedResourceGroup?.name);
 
-    const updateTestTag = useUpdateResourceTagOperation();
+    const updateTestTag = useUpdateResourceTagOperation(props.subscriptionId, bladeState.selectedResourceGroup?.name);
 
     const contextValue = {
         ...bladeState,

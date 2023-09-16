@@ -2,7 +2,7 @@ import { Selection, SelectionMode, ShimmeredDetailsList, mergeStyles } from "@fl
 import { ResourceGroupDropdown } from "@microsoft/azureportal-reactview/ResourceGroupDropdown";
 import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
-import { Resource } from "../../../api/queries/resourceApis";
+import { Resource } from "../../../api/queries/resourceQueries";
 
 export const ResourceList = resourceListViewConnector.connect(
   (ctx) => ({
@@ -15,9 +15,9 @@ export const ResourceList = resourceListViewConnector.connect(
   (props) => {
     console.log(`Render ResourceList`);
 
-    const { dispatch, selectedResourceGroup, subscriptionId, subscriptionResources, subscriptionResourcesLoading } =
-      props;
+    const { dispatch, selectedResourceGroup, subscriptionId, subscriptionResources, subscriptionResourcesLoading } = props;
     const selectionRef = React.useRef<Selection>();
+    const hasResources = subscriptionResources?.length > 0;
 
     if (!selectionRef.current) {
       selectionRef.current = new Selection({
@@ -36,7 +36,7 @@ export const ResourceList = resourceListViewConnector.connect(
     React.useEffect(() => {
       if (!performedInitialSelection.current && subscriptionResources?.length > 0) {
         performedInitialSelection.current = true;
-        selectionRef.current?.setKeySelected(subscriptionResources[0].id, true, false);
+        selectionRef.current?.setIndexSelected(0, true, false);
       }
     }, [subscriptionResources]);
 
@@ -46,12 +46,15 @@ export const ResourceList = resourceListViewConnector.connect(
         <ResourceGroupDropdown
           subscriptionId={subscriptionId}
           selectedResourceGroupId={selectedResourceGroup?.id}
-          onChange={(_ev, selectedResourceGroup) => dispatch({ selectedResourceGroup })}
+          onChange={(_ev, selectedResourceGroup) => {
+            performedInitialSelection.current = false;
+            dispatch({ selectedResourceGroup });
+          }}
         />
         {selectedResourceGroup ? (
           <div>
             <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resources:</h4>
-            {subscriptionResourcesLoading || subscriptionResources?.length > 0 ? (
+            {(subscriptionResourcesLoading || hasResources) ? (
               <ShimmeredDetailsList
                 columns={[
                   {
@@ -83,8 +86,8 @@ export const ResourceList = resourceListViewConnector.connect(
                     onRender: (item) => item.tags?.test,
                   },
                 ]}
-                enableShimmer={subscriptionResourcesLoading}
-                items={subscriptionResources?.slice(0, 12) || []}
+                enableShimmer={!hasResources}
+                items={subscriptionResources || []}
                 selection={selectionRef.current}
                 selectionMode={SelectionMode.single}
                 setKey="set"

@@ -6,11 +6,15 @@ import { useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
 
 setTitle("Edit test tag");
 
-const TestTagEditorView = ({ parameters }: { parameters: { resourceId: string; initialTestTagValue?: string } }) => {
-  const { resourceId, initialTestTagValue } = parameters;
+type TestTagEditorViewProps = {
+  parameters: { resourceId: string; initialTestTagValue?: string; subscriptionId: string; resourceGroupName: string };
+};
+
+const TestTagEditorView = ({ parameters }: TestTagEditorViewProps) => {
+  const { resourceId, initialTestTagValue, subscriptionId, resourceGroupName } = parameters;
   const [tagValue, setTagValue] = React.useState(initialTestTagValue);
   const savedValue = React.useRef(initialTestTagValue);
-  const tagUpdateOperation = useUpdateResourceTagOperation();
+  const tagUpdateOperation = useUpdateResourceTagOperation(subscriptionId, resourceGroupName);
 
   return (
     <div>

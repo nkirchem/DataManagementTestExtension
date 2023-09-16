@@ -1,5 +1,5 @@
-import { getSubscriptions } from "../../api/queries/subscriptionApis";
+import { subscriptionsQuery } from "../../api/queries/subscriptionQueries";
 
 export function fetchData() {
-    getSubscriptions();
+    subscriptionsQuery.query().forceGet();
 }

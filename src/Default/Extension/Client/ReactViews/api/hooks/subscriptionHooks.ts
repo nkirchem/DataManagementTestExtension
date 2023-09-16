@@ -1,17 +1,10 @@
-import { Subscription } from "@microsoft/azureportal-reactview/Az";
-import { useAsyncWithContext, UseAsyncResult } from "@microsoft/azureportal-reactview/DataManagement";
-import { getSubscription, getSubscriptions, IGetSubscriptionOptions } from "../queries/subscriptionApis";
+import { subscriptionQuery, subscriptionsQuery } from "../queries/subscriptionQueries";
+import { useQuery } from "@microsoft/azureportal-reactview/QueryCache";
 
-export function useSubscriptions(options: IGetSubscriptionOptions = {}): UseAsyncResult<Subscription[]> {
-  return useAsyncWithContext(
-    ({ refreshing }) => getSubscriptions({ ...options, bypassCache: options.bypassCache || refreshing }),
-    []
-  );
+export function useSubscriptions() {
+  return useQuery(subscriptionsQuery, []);
 }
 
-export function useSubscription(subscriptionId: string, options: IGetSubscriptionOptions = {}): UseAsyncResult<Subscription> {
-  return useAsyncWithContext(
-    ({ refreshing }) => getSubscription(subscriptionId, { ...options, bypassCache: options.bypassCache || refreshing }),
-    [subscriptionId]
-  );
+export function useSubscription(subscriptionId: string) {
+  return useQuery(subscriptionQuery, [subscriptionId]);
 }
