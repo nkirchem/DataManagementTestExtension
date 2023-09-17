@@ -1,5 +1,5 @@
 import { subscriptionsQuery } from "../../api/queries/subscriptionQueries";
 
 export function fetchData() {
-    subscriptionsQuery.query().forceGet();
+    subscriptionsQuery.query().get();
 }

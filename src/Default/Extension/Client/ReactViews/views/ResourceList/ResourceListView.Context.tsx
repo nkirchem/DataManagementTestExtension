@@ -19,8 +19,8 @@ export type IResourceListViewContext = {
 };
 
 export type ResourceListViewState = {
-    selectedResourceId?: string;
     selectedResourceGroup?: ResourceGroup;
+    selectedResourceId?: string;
 }
 
 const ResourceListViewContext = React.createContext<IResourceListViewContext>(null);
@@ -29,21 +29,21 @@ export const ResourceListViewContextProvider = React.memo((props: React.PropsWit
     const subscription = useSubscription(props.subscriptionId);
     const resourceGroups = useResourceGroups(props.subscriptionId);
 
-    const [bladeState, dispatch] = usePropertyBag<ResourceListViewState>(() => ({
-        selectedResourceGroup: resourceGroups.result && resourceGroups.result[0] 
-    }));
+    const [viewState, dispatch] = usePropertyBag<ResourceListViewState>({});
 
-    const resources = useResourcesByResourceGroup(props.subscriptionId, bladeState.selectedResourceGroup?.name);
-    const updateTestTag = useUpdateResourceTagOperation(props.subscriptionId, bladeState.selectedResourceGroup?.name);
+    const selectedResourceGroup = viewState.selectedResourceGroup ?? resourceGroups.result?.[0];
+    const resources = useResourcesByResourceGroup(props.subscriptionId, selectedResourceGroup?.name);
+    const updateTestTag = useUpdateResourceTagOperation(props.subscriptionId, selectedResourceGroup?.name);
 
-    const selectedResourceId = bladeState.selectedResourceId ?? resources.result?.[0]?.id;
+    const selectedResourceId = viewState.selectedResourceId ?? resources.result?.[0]?.id;
     const selectedResource = resources.result?.find(r => r.id === selectedResourceId);
 
     const contextValue = {
-        ...bladeState,
         resources,
         resourceGroups,
         selectedResource,
+        selectedResourceGroup,
+        selectedResourceId,
         subscriptionId: props.subscriptionId,
         subscription: subscription.result,
         updateTestTag,

@@ -7,6 +7,7 @@ import { Resource } from "../../../api/queries/resourceQueries";
 export const ResourceList = resourceListViewConnector.connect(
   (ctx) => ({
     selectedResourceGroup: ctx.selectedResourceGroup,
+    selectedResource: ctx.selectedResource,
     subscriptionResources: ctx.resources?.result,
     subscriptionResourcesLoading: ctx.resources?.loading,
     dispatch: ctx.dispatch,
@@ -14,9 +15,10 @@ export const ResourceList = resourceListViewConnector.connect(
   (props) => {
     console.log(`Render ResourceList`);
 
-    const { dispatch, selectedResourceGroup, subscriptionResources, subscriptionResourcesLoading } = props;
+    const { dispatch, selectedResource, selectedResourceGroup, subscriptionResources, subscriptionResourcesLoading } = props;
     const selectionRef = React.useRef<Selection>();
     const hasResources = subscriptionResources?.length > 0;
+    const listItems = subscriptionResources || [];
 
     if (!selectionRef.current) {
       selectionRef.current = new Selection({
@@ -29,6 +31,11 @@ export const ResourceList = resourceListViewConnector.connect(
         getKey: (item) => (item as Resource)?.id,
         selectionMode: SelectionMode.single,
       });
+      selectionRef.current.setItems(listItems as any[], true);
+    }
+
+    if (selectedResource) {
+      selectionRef.current.setKeySelected(selectedResource.id, true, false);
     }
 
     return (
@@ -71,7 +78,7 @@ export const ResourceList = resourceListViewConnector.connect(
                   },
                 ]}
                 enableShimmer={!hasResources}
-                items={subscriptionResources || []}
+                items={listItems}
                 selection={selectionRef.current}
                 selectionMode={SelectionMode.single}
                 setKey="set"

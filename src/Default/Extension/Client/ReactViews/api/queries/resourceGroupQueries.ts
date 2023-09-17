@@ -6,6 +6,7 @@ export const resourceGroupsQuery = registerQuery({
     name: "resourceGroups",
     query: async (subscriptionId: string) => {
         return batch<{ value: ResourceGroup[] }>({
+            setTelemetryHeader: "resourceGroups",
             uri: `/subscriptions/${subscriptionId}/resourceGroups?api-version=2019-08-01&$top=100`,
             options: RequestOptions.DebounceImmediately,
           }).then((response) => {

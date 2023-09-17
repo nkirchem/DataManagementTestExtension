@@ -6,6 +6,7 @@ export const subscriptionQuery = registerQuery({
   name: "subscription",
   query: async (subscriptionId: string) =>
     batch<Subscription>({
+      setTelemetryHeader: "subscription",
       uri: `/subscriptions/${subscriptionId}?api-version=2019-08-01`,
       options: RequestOptions.DebounceImmediately,
     }).then((response) => response.content),
@@ -15,6 +16,7 @@ export const subscriptionsQuery = registerQuery({
   name: "subscriptions",
   query: async () =>
     batch<{ value: Subscription[] }>({
+      setTelemetryHeader: "subscriptions",
       uri: "/subscriptions?api-version=2019-08-01",
       options: RequestOptions.DebounceImmediately,
     }).then((response) => {
