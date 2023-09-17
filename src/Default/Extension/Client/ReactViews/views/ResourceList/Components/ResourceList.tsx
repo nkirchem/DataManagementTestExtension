@@ -1,21 +1,20 @@
 import { Selection, SelectionMode, ShimmeredDetailsList, mergeStyles } from "@fluentui/react";
-import { ResourceGroupDropdown } from "@microsoft/azureportal-reactview/ResourceGroupDropdown";
 import * as React from "react";
+import { ResourceGroupDropdown } from "./ResourceGroupDropdown";
 import { resourceListViewConnector } from "../ResourceListView.Context";
 import { Resource } from "../../../api/queries/resourceQueries";
 
 export const ResourceList = resourceListViewConnector.connect(
   (ctx) => ({
     selectedResourceGroup: ctx.selectedResourceGroup,
-    subscriptionId: ctx.subscriptionId,
-    subscriptionResources: ctx.subscriptionResources?.result,
-    subscriptionResourcesLoading: ctx.subscriptionResources?.loading,
+    subscriptionResources: ctx.resources?.result,
+    subscriptionResourcesLoading: ctx.resources?.loading,
     dispatch: ctx.dispatch,
   }),
   (props) => {
     console.log(`Render ResourceList`);
 
-    const { dispatch, selectedResourceGroup, subscriptionId, subscriptionResources, subscriptionResourcesLoading } = props;
+    const { dispatch, selectedResourceGroup, subscriptionResources, subscriptionResourcesLoading } = props;
     const selectionRef = React.useRef<Selection>();
     const hasResources = subscriptionResources?.length > 0;
 
@@ -32,25 +31,10 @@ export const ResourceList = resourceListViewConnector.connect(
       });
     }
 
-    const performedInitialSelection = React.useRef(false);
-    React.useEffect(() => {
-      if (!performedInitialSelection.current && subscriptionResources?.length > 0) {
-        performedInitialSelection.current = true;
-        selectionRef.current?.setIndexSelected(0, true, false);
-      }
-    }, [subscriptionResources]);
-
     return (
       <div>
         <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resource groups:</h4>
-        <ResourceGroupDropdown
-          subscriptionId={subscriptionId}
-          selectedResourceGroupId={selectedResourceGroup?.id}
-          onChange={(_ev, selectedResourceGroup) => {
-            performedInitialSelection.current = false;
-            dispatch({ selectedResourceGroup });
-          }}
-        />
+        <ResourceGroupDropdown />
         {selectedResourceGroup ? (
           <div>
             <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resources:</h4>

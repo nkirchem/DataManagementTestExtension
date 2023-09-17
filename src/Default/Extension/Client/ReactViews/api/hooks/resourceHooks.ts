@@ -1,6 +1,5 @@
-import { useOperation } from "@microsoft/azureportal-reactview/DataManagement";
+import { useOperation, useQuery } from "@microsoft/azureportal-reactview/DataManagement";
 import { resourcesByResourceGroupQuery, updateResourceTestTag } from "../queries/resourceQueries";
-import { useQuery } from "@microsoft/azureportal-reactview/QueryCache";
 
 export function useResourcesByResourceGroup(subscriptionId: string, resourceGroup?: string) {
   return useQuery(resourcesByResourceGroupQuery, [subscriptionId, resourceGroup], { disabled: !resourceGroup });

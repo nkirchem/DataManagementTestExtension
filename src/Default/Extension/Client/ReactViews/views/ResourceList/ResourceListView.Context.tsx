@@ -5,13 +5,15 @@ import { createComponentConnector, UseAsyncResult, usePropertyBag } from "@micro
 import { useResourcesByResourceGroup, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
 import { useSubscription } from "../../api/hooks/subscriptionHooks";
 import { Resource } from "../../api/queries/resourceQueries";
+import { useResourceGroups } from "../../api/hooks/resourceGroupHooks";
 
 export type IResourceListViewContext = {
+    resources: UseAsyncResult<Resource[]>;
+    resourceGroups: UseAsyncResult<ResourceGroup[]>;
     selectedResource?: Resource;
     selectedResourceGroup?: ResourceGroup;
     subscriptionId: string;
     subscription?: Subscription;
-    subscriptionResources?: UseAsyncResult<Resource[]>;
     updateTestTag: ReturnType<typeof useUpdateResourceTagOperation>;
     dispatch: React.Dispatch<Partial<ResourceListViewState>>;
 };
@@ -24,19 +26,26 @@ export type ResourceListViewState = {
 const ResourceListViewContext = React.createContext<IResourceListViewContext>(null);
 
 export const ResourceListViewContextProvider = React.memo((props: React.PropsWithChildren<{ subscriptionId: string }>) => {
-    const [bladeState, dispatch] = usePropertyBag<ResourceListViewState>({});
-
     const subscription = useSubscription(props.subscriptionId);
-    const subscriptionResources = useResourcesByResourceGroup(props.subscriptionId, bladeState.selectedResourceGroup?.name);
+    const resourceGroups = useResourceGroups(props.subscriptionId);
 
+    const [bladeState, dispatch] = usePropertyBag<ResourceListViewState>(() => ({
+        selectedResourceGroup: resourceGroups.result && resourceGroups.result[0] 
+    }));
+
+    const resources = useResourcesByResourceGroup(props.subscriptionId, bladeState.selectedResourceGroup?.name);
     const updateTestTag = useUpdateResourceTagOperation(props.subscriptionId, bladeState.selectedResourceGroup?.name);
+
+    const selectedResourceId = bladeState.selectedResourceId ?? resources.result?.[0]?.id;
+    const selectedResource = resources.result?.find(r => r.id === selectedResourceId);
 
     const contextValue = {
         ...bladeState,
-        selectedResource: subscriptionResources.result?.find(r => r.id === bladeState.selectedResourceId),
+        resources,
+        resourceGroups,
+        selectedResource,
         subscriptionId: props.subscriptionId,
         subscription: subscription.result,
-        subscriptionResources,
         updateTestTag,
         dispatch
     };

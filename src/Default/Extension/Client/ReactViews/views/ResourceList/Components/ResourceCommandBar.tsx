@@ -2,13 +2,8 @@ import { CommandBar } from "@microsoft/azureportal-reactview/CommandBar";
 import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
 
-export interface IResourceCommandBarProps {
-  loading?: boolean;
-  refresh?: () => void;
-}
-
 export const ResourceCommandBar = resourceListViewConnector.connect(
-  (ctx) => ({ loading: ctx.subscriptionResources?.inProgress, refresh: ctx.subscriptionResources?.refresh }),
+  (ctx) => ({ loading: ctx.resources?.inProgress, refresh: ctx.resources?.refresh }),
   (props) => {
     console.log(`Render ResourceCommandBar`);
 
