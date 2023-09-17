@@ -7,26 +7,23 @@ import { Resource } from "../../../api/queries/resourceQueries";
 export const ResourceList = resourceListViewConnector.connect(
   (ctx) => ({
     selectedResourceGroup: ctx.selectedResourceGroup,
-    selectedResource: ctx.selectedResource,
-    subscriptionResources: ctx.resources?.result,
-    subscriptionResourcesLoading: ctx.resources?.loading,
+    resources: ctx.resources?.result,
+    resourcesLoading: ctx.resources?.loading,
     dispatch: ctx.dispatch,
   }),
   (props) => {
     console.log(`Render ResourceList`);
 
-    const { dispatch, selectedResource, selectedResourceGroup, subscriptionResources, subscriptionResourcesLoading } = props;
+    const { dispatch, selectedResourceGroup, resources, resourcesLoading } = props;
     const selectionRef = React.useRef<Selection>();
-    const hasResources = subscriptionResources?.length > 0;
-    const listItems = subscriptionResources || [];
+    const hasResources = resources?.length > 0;
+    const listItems = resources || [];
 
     if (!selectionRef.current) {
       selectionRef.current = new Selection({
         onSelectionChanged: () => {
           const selectedResourceId = (selectionRef.current?.getSelection()[0] as Resource)?.id;
-          if (selectedResourceId) {
-            dispatch({ selectedResourceId });
-          }
+          dispatch({ selectedResourceId });
         },
         getKey: (item) => (item as Resource)?.id,
         selectionMode: SelectionMode.single,
@@ -34,9 +31,11 @@ export const ResourceList = resourceListViewConnector.connect(
       selectionRef.current.setItems(listItems as any[], true);
     }
 
-    if (selectedResource) {
-      selectionRef.current.setKeySelected(selectedResource.id, true, false);
-    }
+    React.useEffect(() => {
+      if (!selectionRef.current.count && resources?.length) {
+        selectionRef.current.setKeySelected(resources[0].id, true, false);
+      }
+    }, [resources]);
 
     return (
       <div>
@@ -45,7 +44,7 @@ export const ResourceList = resourceListViewConnector.connect(
         {selectedResourceGroup ? (
           <div>
             <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resources:</h4>
-            {(subscriptionResourcesLoading || hasResources) ? (
+            {(resourcesLoading || hasResources) ? (
               <ShimmeredDetailsList
                 columns={[
                   {
