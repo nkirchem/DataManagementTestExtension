@@ -1,7 +1,8 @@
-import { Shimmer, mergeStyles } from "@fluentui/react";
+import { mergeStyles } from "@fluentui/react";
 import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
 import { ResourceList } from "./ResourceList";
+import { Shimmer } from "@microsoft/azureportal-reactview/Shimmer";
 
 export const SubscriptionDetails = resourceListViewConnector.connect(
   (ctx) => ({
@@ -13,17 +14,17 @@ export const SubscriptionDetails = resourceListViewConnector.connect(
 
     const { subscription } = props;
     return (
-      <div className={mergeStyles({ margin: "20px 0", minHeight: "36px" })}>
-        <div>
+      <div className={mergeStyles({ marginTop: "20px" })}>
+        <div className={mergeStyles({ height: "48px" })}>
           <div className={mergeStyles({ fontWeight: "bold" })}>
-            <Shimmer isDataLoaded={Boolean(subscription)}>{subscription?.displayName}</Shimmer>
+            <Shimmer isDataLoaded={Boolean(subscription)} initialDelay={200}>{subscription?.displayName}</Shimmer>
           </div>
           <div className={mergeStyles({ color: "#888" })}>
-            <Shimmer isDataLoaded={Boolean(subscription)}>Id: {subscription?.subscriptionId}</Shimmer>
+            <Shimmer isDataLoaded={Boolean(subscription)} initialDelay={200}>Id: {subscription?.subscriptionId}</Shimmer>
           </div>
-          <div>
-            <ResourceList />
-          </div>
+        </div>
+        <div>
+          <ResourceList />
         </div>
       </div>
     );
