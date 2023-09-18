@@ -5,11 +5,11 @@ import { resourcesByResourceGroupQuery } from "../../api/queries/resourceQueries
 
 export function fetchData(props: IResourceListViewProps) {
     const subscriptionId = props.parameters.subscriptionId;
-    subscriptionQuery.query(subscriptionId).get();
+    subscriptionQuery.bind(subscriptionId).get();
 
-    resourceGroupsQuery.query(subscriptionId).get().then(resourceGroups => {
+    resourceGroupsQuery.bind(subscriptionId).get().then(resourceGroups => {
         if (resourceGroups.length) {
-            resourcesByResourceGroupQuery.query(subscriptionId, resourceGroups[0].name).get();
+            resourcesByResourceGroupQuery.bind(subscriptionId, resourceGroups[0].name).get();
         }
     });
 }

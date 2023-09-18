@@ -16,7 +16,7 @@ export function useUpdateResourceTagOperation(subscriptionId: string, resourceGr
         throw error;
       }
     }
-    const resourceListQuery = resourcesByResourceGroupQuery.query(subscriptionId, resourceGroup);
+    const resourceListQuery = resourcesByResourceGroupQuery.bind(subscriptionId, resourceGroup);
     const cachedListValue = resourceListQuery.getCachedValue();
     if (cachedListValue?.value) {
       resourceListQuery.set(
