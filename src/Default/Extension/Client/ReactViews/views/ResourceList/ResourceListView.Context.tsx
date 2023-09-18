@@ -2,41 +2,50 @@ import * as React from "react";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
 import { ResourceGroup } from "@microsoft/azureportal-reactview/ResourceManagement";
 import { createComponentConnector, UseAsyncResult, usePropertyBag } from "@microsoft/azureportal-reactview/DataManagement";
-import { useSubscriptionResources, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
+import { useResourcesByResourceGroup, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
 import { useSubscription } from "../../api/hooks/subscriptionHooks";
-import { Resource } from "../../api/queries/resourceApis";
+import { Resource } from "../../api/queries/resourceQueries";
+import { useResourceGroups } from "../../api/hooks/resourceGroupHooks";
 
 export type IResourceListViewContext = {
+    resources: UseAsyncResult<Resource[]>;
+    resourceGroups: UseAsyncResult<ResourceGroup[]>;
     selectedResource?: Resource;
     selectedResourceGroup?: ResourceGroup;
     subscriptionId: string;
     subscription?: Subscription;
-    subscriptionResources?: UseAsyncResult<Resource[]>;
     updateTestTag: ReturnType<typeof useUpdateResourceTagOperation>;
     dispatch: React.Dispatch<Partial<ResourceListViewState>>;
 };
 
 export type ResourceListViewState = {
-    selectedResourceId?: string;
     selectedResourceGroup?: ResourceGroup;
+    selectedResourceId?: string;
 }
 
 const ResourceListViewContext = React.createContext<IResourceListViewContext>(null);
 
 export const ResourceListViewContextProvider = React.memo((props: React.PropsWithChildren<{ subscriptionId: string }>) => {
-    const [bladeState, dispatch] = usePropertyBag<ResourceListViewState>({});
-
     const subscription = useSubscription(props.subscriptionId);
-    const subscriptionResources = useSubscriptionResources(props.subscriptionId, bladeState.selectedResourceGroup?.name);
+    const resourceGroups = useResourceGroups(props.subscriptionId);
 
-    const updateTestTag = useUpdateResourceTagOperation();
+    const [viewState, dispatch] = usePropertyBag<ResourceListViewState>({});
+
+    const selectedResourceGroup = viewState.selectedResourceGroup ?? resourceGroups.result?.[0];
+    const resources = useResourcesByResourceGroup(props.subscriptionId, selectedResourceGroup?.name);
+    const updateTestTag = useUpdateResourceTagOperation(props.subscriptionId, selectedResourceGroup?.name);
+
+    const selectedResourceId = viewState.selectedResourceId ?? resources.result?.[0]?.id;
+    const selectedResource = resources.result?.find(r => r.id === selectedResourceId);
 
     const contextValue = {
-        ...bladeState,
-        selectedResource: subscriptionResources.result?.find(r => r.id === bladeState.selectedResourceId),
+        resources,
+        resourceGroups,
+        selectedResource,
+        selectedResourceGroup,
+        selectedResourceId,
         subscriptionId: props.subscriptionId,
         subscription: subscription.result,
-        subscriptionResources,
         updateTestTag,
         dispatch
     };

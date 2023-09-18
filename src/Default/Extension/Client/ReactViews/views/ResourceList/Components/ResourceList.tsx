@@ -1,57 +1,50 @@
 import { Selection, SelectionMode, ShimmeredDetailsList, mergeStyles } from "@fluentui/react";
-import { ResourceGroupDropdown } from "@microsoft/azureportal-reactview/ResourceGroupDropdown";
 import * as React from "react";
+import { ResourceGroupDropdown } from "./ResourceGroupDropdown";
 import { resourceListViewConnector } from "../ResourceListView.Context";
-import { Resource } from "../../../api/queries/resourceApis";
+import { Resource } from "../../../api/queries/resourceQueries";
 
 export const ResourceList = resourceListViewConnector.connect(
   (ctx) => ({
     selectedResourceGroup: ctx.selectedResourceGroup,
-    subscriptionId: ctx.subscriptionId,
-    subscriptionResources: ctx.subscriptionResources?.result,
-    subscriptionResourcesLoading: ctx.subscriptionResources?.loading,
+    resources: ctx.resources?.result,
+    resourcesLoading: ctx.resources?.loading,
     dispatch: ctx.dispatch,
   }),
   (props) => {
     console.log(`Render ResourceList`);
 
-    const { dispatch, selectedResourceGroup, subscriptionId, subscriptionResources, subscriptionResourcesLoading } =
-      props;
+    const { dispatch, selectedResourceGroup, resources, resourcesLoading } = props;
     const selectionRef = React.useRef<Selection>();
+    const hasResources = resources?.length > 0;
+    const listItems = resources || [];
 
     if (!selectionRef.current) {
       selectionRef.current = new Selection({
         onSelectionChanged: () => {
           const selectedResourceId = (selectionRef.current?.getSelection()[0] as Resource)?.id;
-          if (selectedResourceId) {
-            dispatch({ selectedResourceId });
-          }
+          dispatch({ selectedResourceId });
         },
         getKey: (item) => (item as Resource)?.id,
         selectionMode: SelectionMode.single,
       });
+      selectionRef.current.setItems(listItems as any[], true);
     }
 
-    const performedInitialSelection = React.useRef(false);
     React.useEffect(() => {
-      if (!performedInitialSelection.current && subscriptionResources?.length > 0) {
-        performedInitialSelection.current = true;
-        selectionRef.current?.setKeySelected(subscriptionResources[0].id, true, false);
+      if (!selectionRef.current.count && resources?.length) {
+        selectionRef.current.setKeySelected(resources[0].id, true, false);
       }
-    }, [subscriptionResources]);
+    }, [resources]);
 
     return (
       <div>
         <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resource groups:</h4>
-        <ResourceGroupDropdown
-          subscriptionId={subscriptionId}
-          selectedResourceGroupId={selectedResourceGroup?.id}
-          onChange={(_ev, selectedResourceGroup) => dispatch({ selectedResourceGroup })}
-        />
+        <ResourceGroupDropdown />
         {selectedResourceGroup ? (
           <div>
             <h4 className={mergeStyles({ marginTop: "40px" })}>Subscription resources:</h4>
-            {subscriptionResourcesLoading || subscriptionResources?.length > 0 ? (
+            {(resourcesLoading || hasResources) ? (
               <ShimmeredDetailsList
                 columns={[
                   {
@@ -83,8 +76,8 @@ export const ResourceList = resourceListViewConnector.connect(
                     onRender: (item) => item.tags?.test,
                   },
                 ]}
-                enableShimmer={subscriptionResourcesLoading}
-                items={subscriptionResources?.slice(0, 12) || []}
+                enableShimmer={!hasResources}
+                items={listItems}
                 selection={selectionRef.current}
                 selectionMode={SelectionMode.single}
                 setKey="set"

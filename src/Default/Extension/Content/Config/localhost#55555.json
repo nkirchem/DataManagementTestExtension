@@ -1,0 +1,10 @@
+{
+    "armEndpoint": "https://management.azure.com",
+    "features":{
+        "regionSegments": true
+    },
+    "trustedDomains": ["localhost"],
+    "argbrowseoptions": {
+        "MyResource": "Force"
+    }
+}

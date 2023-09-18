@@ -4,11 +4,11 @@ import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
 
 export const ResourceDetails = resourceListViewConnector.connectContextProps(
-  ["selectedResource", "updateTestTag"],
+  ["selectedResource", "updateTestTag", "subscriptionId", "selectedResourceGroup"],
   (props) => {
     console.log(`Render ResourceDetails`);
 
-    const { selectedResource, updateTestTag } = props;
+    const { selectedResource, updateTestTag, subscriptionId, selectedResourceGroup } = props;
     return (
       <div className={mergeStyles({ margin: "20px 0", minHeight: "36px" })}>
         {!selectedResource ? (
@@ -40,7 +40,12 @@ export const ResourceDetails = resourceListViewConnector.connectContextProps(
                 openContextPane({
                   bladeName: "TestTagEditorView.ReactView",
                   extensionName: "DataManagementTest",
-                  parameters: { resourceId: selectedResource.id, initialTestTagValue: selectedResource.tags?.test },
+                  parameters: {
+                    resourceId: selectedResource.id,
+                    initialTestTagValue: selectedResource.tags?.test,
+                    subscriptionId,
+                    resourceGroupName: selectedResourceGroup?.name,
+                  },
                 });
               }}
             />
