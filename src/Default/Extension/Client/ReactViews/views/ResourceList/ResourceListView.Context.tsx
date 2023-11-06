@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
 import { ResourceGroup } from "@microsoft/azureportal-reactview/ResourceManagement";
-import { createComponentConnector, UseAsyncResult, usePropertyBag } from "@microsoft/azureportal-reactview/DataManagement";
+import { createComponentConnector, usePropertyBag } from "@microsoft/azureportal-reactview/DataManagement";
 import { useResourcesByResourceGroup, useUpdateResourceTagOperation } from "../../api/hooks/resourceHooks";
 import { useSubscription } from "../../api/hooks/subscriptionHooks";
 import { Resource } from "../../api/queries/resourceQueries";
 import { useResourceGroups } from "../../api/hooks/resourceGroupHooks";
 
 export type IResourceListViewContext = {
-    resources: UseAsyncResult<Resource[]>;
-    resourceGroups: UseAsyncResult<ResourceGroup[]>;
+    resources: ReturnType<typeof useResourcesByResourceGroup>;
+    resourceGroups: ReturnType<typeof useResourceGroups>;
     selectedResource?: Resource;
     selectedResourceGroup?: ResourceGroup;
     subscriptionId: string;

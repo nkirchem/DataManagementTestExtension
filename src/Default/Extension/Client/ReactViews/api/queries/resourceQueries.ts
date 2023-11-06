@@ -1,5 +1,5 @@
 import { batch, RequestOptions } from "@microsoft/azureportal-reactview/Ajax";
-import { registerQuery } from "@microsoft/azureportal-reactview/QueryCache";
+import { registerQuery } from "@microsoft/azureportal-reactview/QueryRegistration";
 
 export interface Resource {
   id: string;

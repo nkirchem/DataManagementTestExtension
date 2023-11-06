@@ -3,7 +3,7 @@ import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
 
 export const ResourceCommandBar = resourceListViewConnector.connect(
-  (ctx) => ({ loading: ctx.resources?.inProgress, refresh: ctx.resources?.refresh }),
+  (ctx) => ({ loading: ctx.resources?.updating, refresh: ctx.resources?.refresh }),
   (props) => {
     console.log(`Render ResourceCommandBar`);
 

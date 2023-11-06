@@ -9,9 +9,9 @@ setTitle("Subscriptions");
 const SubscriptionListView: React.FC = () => {
     console.log(`Render SubscriptionListView`);
 
-    const { inProgress, loading, result: subscriptions, refresh } = useSubscriptions();
+    const { loading, result: subscriptions, refresh, updating } = useSubscriptions();
     return <div>
-        <SubscriptionCommandBar loading={inProgress} refresh={refresh} />
+        <SubscriptionCommandBar loading={updating} refresh={refresh} />
         <SubscriptionList loading={loading} subscriptions={subscriptions} />
     </div>
 };

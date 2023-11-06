@@ -1,6 +1,6 @@
 import { RequestOptions, batch } from "@microsoft/azureportal-reactview/Ajax";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
-import { registerQuery } from "@microsoft/azureportal-reactview/QueryCache";
+import { registerQuery } from "@microsoft/azureportal-reactview/QueryRegistration";
 
 export const subscriptionQuery = registerQuery({
   name: "subscription",
@@ -24,4 +24,9 @@ export const subscriptionsQuery = registerQuery({
       subscriptions.sort((a, b) => a.displayName.localeCompare(b.displayName));
       return subscriptions;
     }),
+  onSuccess: (_, subscriptions) => {
+    for (const subscription of subscriptions) {
+      subscriptionQuery.bind(subscription.subscriptionId).set(subscription);
+    }
+  }
 });

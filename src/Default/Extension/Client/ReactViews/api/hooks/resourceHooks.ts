@@ -17,8 +17,8 @@ export function useUpdateResourceTagOperation(subscriptionId: string, resourceGr
       }
     }
     const resourceListQuery = resourcesByResourceGroupQuery.bind(subscriptionId, resourceGroup);
-    const cachedListValue = resourceListQuery.getCachedValue();
-    if (cachedListValue?.value) {
+    const cachedListValue = resourceListQuery.getCacheEntry();
+    if (cachedListValue.value) {
       resourceListQuery.set(
         cachedListValue.value.map((resource) =>
           resource.id === resourceId ? { ...resource, tags: { test: testTagValue } } : resource

@@ -6,7 +6,7 @@
   "license": "ISC",
   "dependencies": {
     "@fluentui/react": "8.97.2",
-    "@microsoft/azureportal-reactview": "^1.116.0",
+    "@microsoft/azureportal-reactview": "^1.126.3",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
