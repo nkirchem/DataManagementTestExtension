@@ -1,4 +1,5 @@
 import { setTitle } from "@microsoft/azureportal-reactview/Az";
+import { BladeReferences } from "@microsoft/azureportal-reactview/Navigation";
 import { mergeStyles } from "@fluentui/react/lib/Styling";
 import * as React from "react";
 import { SubscriptionDetails } from "./Components/SubscriptionDetails";
@@ -19,10 +20,7 @@ const ResourceListView: React.FC<IResourceListViewProps> = (props) => {
         <ResourceCommandBar />
         <div>
           <BladeLink
-            bladeReference={{
-              bladeName: "SubscriptionListView.ReactView",
-              extensionName: "DataManagementTest",
-            }}
+            bladeReference={BladeReferences.forBlade("SubscriptionListView.ReactView").createReference()}
           >
             Back to all subscriptions
           </BladeLink>

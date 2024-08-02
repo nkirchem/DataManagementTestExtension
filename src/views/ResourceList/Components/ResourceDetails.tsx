@@ -1,4 +1,4 @@
-import { openContextPane } from "@microsoft/azureportal-reactview/Az";
+import { BladeReferences, openContextPane } from "@microsoft/azureportal-reactview/Navigation";
 import { DefaultButton, mergeStyles } from "@fluentui/react";
 import * as React from "react";
 import { resourceListViewConnector } from "../ResourceListView.Context";
@@ -37,16 +37,12 @@ export const ResourceDetails = resourceListViewConnector.connectContextProps(
               disabled={updateTestTag.inProgress}
               text="Edit test tag in editor pane"
               onClick={() => {
-                openContextPane({
-                  bladeName: "TestTagEditorView.ReactView",
-                  extensionName: "DataManagementTest",
-                  parameters: {
-                    resourceId: selectedResource.id,
-                    initialTestTagValue: selectedResource.tags?.test,
-                    subscriptionId,
-                    resourceGroupName: selectedResourceGroup?.name,
-                  },
-                });
+                openContextPane(BladeReferences.forBlade("TestTagEditorView.ReactView").createReference({ parameters: {
+                  resourceId: selectedResource.id,
+                  initialTestTagValue: selectedResource.tags?.test,
+                  subscriptionId,
+                  resourceGroupName: selectedResourceGroup!.name,
+                } }));
               }}
             />
           </div>

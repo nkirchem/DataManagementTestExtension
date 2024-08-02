@@ -2,6 +2,7 @@ import { SearchBox, SelectionMode, ShimmeredDetailsList } from "@fluentui/react"
 import { useAsync } from "@fluentui/react-hooks";
 import { Subscription } from "@microsoft/azureportal-reactview/Az";
 import { BladeLink } from "@microsoft/azureportal-reactview/BladeLink";
+import { BladeReferences } from "@microsoft/azureportal-reactview/Navigation";
 import * as React from "react";
 
 export interface ISubscriptionListProps {
@@ -37,11 +38,7 @@ export const SubscriptionList: React.FC<ISubscriptionListProps> = (props) => {
             minWidth: 250,
             onRender: (item: Subscription) => (
               <BladeLink
-                bladeReference={{
-                  bladeName: "ResourceListView.ReactView",
-                  extensionName: "DataManagementTest",
-                  parameters: { subscriptionId: item.subscriptionId },
-                }}
+                bladeReference={BladeReferences.forBlade("ResourceListView.ReactView").createReference({parameters: { subscriptionId: item.subscriptionId }})}
               >
                 {item.displayName}
               </BladeLink>
