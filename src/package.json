@@ -1,0 +1,40 @@
+{
+  "name": "templateextension-reactviews",
+  "version": "1.0.0",
+  "description": "Template Extension React Views",
+  "license": "ISC",
+  "author": "Microsoft",
+  "scripts": {
+    "build": "extension-build",
+    "build:dev": "extension-build --development",
+    "serve": "extension-serve",
+    "start": "extension-start",
+    "test": "jest --config ./test-config/jest.config.ts",
+    "test:watch": "jest --config ./test-config/jest.config.ts --watch"
+  },
+  "dependencies": {
+    "@fluentui/react": "8.114.4",
+    "@microsoft/azureportal-reactview": "14.96.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@fluentui/jest-serializer-merge-styles": "^8.0.31",
+    "@microsoft/azureportal-build": "14.96.0",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "11.0.4",
+    "@types/jest": "^29.5.12",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.18",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "realistic-structured-clone": "2.0.2",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "overrides": {
+    "@fluentui/react": "$@fluentui/react"
+  }
+}

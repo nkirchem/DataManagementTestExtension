@@ -1,0 +1,147 @@
+{
+  "$schema": "../node_modules/@microsoft/azureportal-build/lib/definitions/dx.schema.json",
+  "stringSource": "./GetStartedStrings.resjson",
+  "view": {
+    "kind": "GetStarted",
+    "export": true,
+    "parameters": [
+      {
+        "name": "id",
+        "type": "key"
+      }
+    ],
+    "resources": [
+      {
+        "id": "[parameters('id')]",
+        "apiVersion": "2014-04-01"
+      }
+    ],
+    "essentials": {
+      "properties": [
+        {
+          "displayName": "PropertyFromResourceLabel",
+          "value": "[resources().location]"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "kind": "OpenBladeCommand",
+        "id": "resourceCommand",
+        "icon": "GearFlat",
+        "displayName": "ResourceCommand",
+        "blade": {
+          "name": "HelloWorld.ReactView",
+          "inContextPane": true
+        }
+      },
+      {
+        "kind": "MoveCommand",
+        "id": "moveCommand",
+        "displayName": "Move",
+        "icon": "Move"
+      },
+      {
+        "kind": "RefreshCommand",
+        "id": "refreshCommandId",
+        "displayName": "Refresh",
+        "icon": "Refresh"
+      },
+      {
+        "kind": "DeleteCommand",
+        "id": "deleteCommand",
+        "displayName": "Delete",
+        "icon": "Delete",
+        "confirmation": {
+          "title": "DeleteResourceTitle",
+          "message": "DeleteResourceMessage"
+        },
+        "definition": {
+          "apiVersion": "2014-04-01"
+        }
+      }
+    ],
+    "properties": {
+      "title": "Tab1Title",
+      "tabs": [
+        {
+          "title": "Tab1Title",
+          "description": "Tab1Description",
+          "learnMore": {
+            "url": "https://aka.ms/portalfx/",
+            "ariaLabel": "Learn more about Azure portal development"
+          },
+          "features": [
+            {
+              "title": "TileMenuTitle",
+              "description": "TileMenuDescription",
+              "icon": "PolyManagementPortal",
+              "action": {
+                "menu": "mrsg_item1",
+                "displayName": "TileMenuLinkTitle"
+              }
+            },
+            {
+              "title": "TileConsistencyTitle",
+              "description": "TileConsistencyDescription",
+              "icon": "PolyBlobBlock",
+              "action": {
+                "url": "https://aka.ms/portalfx/designpatterns",
+                "displayName": "LearnMore"
+              }
+            },
+            {
+              "title": "TileOpenBladeTitle",
+              "description": "TileOpenBladeDescription",
+              "icon": "JourneyHub",
+              "action": {
+                "displayName": "TileOpenBladeLinkTitle",
+                "blade": {
+                  "name": "HelloWorld.ReactView"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "Tab2Tutorials",
+          "features": [
+            {
+              "title": "Tab2Feature1Title",
+              "description": "Tab2Feature1Description",
+              "learnMore": {
+                "url": "https://www.azure.com",
+                "ariaLabel": "Learn more about Azure"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=KXkBZCe699A"
+              }
+            },
+            {
+              "title": "Tab2Feature2Title",
+              "description": "Tab2Feature2Description",
+              "learnMore": {
+                "url": "https://www.microsoft.com",
+                "ariaLabel": "Learn more about Microsoft"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=XopvSz4GpEc"
+              }
+            },
+            {
+              "title": "Tab2Feature3Title",
+              "description": "Tab2Feature3Description",
+              "learnMore": {
+                "url": "https://github.com/",
+                "ariaLabel": "Learn more about GitHub"
+              },
+              "video": {
+                "src": "https://www.youtube.com/watch?v=w3jLJU7DT5E"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,5 +1,0 @@
-{
-    "UTNodeModuleRootPath": "./node_modules/@microsoft/azureportal-ut",
-    "GeneratedAssetRootPath": "./_generated",
-    "ResourcesResxRootDirectory": "../Extension/Client"
-}

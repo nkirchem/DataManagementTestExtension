@@ -1,0 +1,5 @@
+{
+    "$schema": "./node_modules/@microsoft/azureportal-build/lib/definitions/dx.schema.json",
+    "viewRedirects": [
+    ]
+}

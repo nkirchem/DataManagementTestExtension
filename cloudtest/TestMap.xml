@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestMap>
+  <TestJobGroup Name="E2E Tests" TestSystem="Default" ConfigPath="[BuildRoot]\cloudtest\E2ETestGroup.xml" IsActive="true"/>
+  <TestJobGroup Name="ReactViews UnitTests" TestSystem="Default" ConfigPath="[BuildRoot]\cloudtest\ReactViewsUnitTestGroup.xml" IsActive="true"/>
+</TestMap>

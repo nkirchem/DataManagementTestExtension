@@ -1,0 +1,78 @@
+{
+  "production": {
+    "ServiceGroupRootReplacementsVersion": 4,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "Slots": [
+      "tip",
+      "MPACFlight"
+    ],
+    "MDMHealthResources": {
+      "Hotfix": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ],
+      "SDP": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ]
+    }
+  },
+  "test": {
+    "ServiceGroupRootReplacementsVersion": 4,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "Slots": [],
+    "MDMHealthResources": {
+      "Hotfix": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ],
+      "SDP": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ]
+    }
+  },
+  "fairfax": {
+    "ServiceGroupRootReplacementsVersion": 4,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "ContactEmail": "youremail@microsoft.com",
+    "PortalExtensionName": "DataManagementTest",
+    "Slots": [
+      "tip"
+    ],
+    "MDMHealthResources": {
+      "Hotfix": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ],
+      "SDP": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ]
+    }
+  },
+  "mooncake": {
+    "ServiceGroupRootReplacementsVersion": 4,
+    "AzureSubscriptionId": "<SubscriptionId>",
+    "ContactEmail": "youremail@microsoft.com",
+    "Slots": [
+      "tip"
+    ],
+    "SkipSafeDeployment": "false",
+    "MDMHealthResources": {
+      "Hotfix": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ],
+      "SDP": [
+        "ExtensionLoad_95PercentSuccessRate_PT30M",
+        "BladeLoad_95PercentSuccessRate_PT30M"
+      ]
+    },
+    "PortalExtensionName": "DataManagementTest"
+  }
+}

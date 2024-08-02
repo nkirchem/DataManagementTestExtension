@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestJobGroup>
+    <ResourceSpec>
+        <Resource SKU="PartnerTeamSKU" Image="PartnerTeamImage"/>
+    </ResourceSpec>
+
+  <Setup>
+    <BuildFiles>
+      <Copy Src="[BuildRoot]\*" Dest="[WorkingDirectory]\" IsRecursive="true" Writable="true"/>
+    </BuildFiles>
+    <Scripts>
+      <Script Path="C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe" Args="-NoProfile -Command Set-ExecutionPolicy Unrestricted"/>
+      <Script Path="C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe" Args="[WorkingDirectory]\cloudtest\scripts\SetupScript.ps1 -Workspace [WorkingDirectory]" />
+      <Script Path="[WorkingDirectory]\install_npm_packages.ps1" Args="-workspace [WorkingDirectory] -PackageJsonPath e2etests"/>
+    </Scripts>
+  </Setup>
+  <TestJob Name="E2E Tests">
+    <Execution Type="Exe" Path="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" Args="[WorkingDirectory]\cloudtest\scripts\RunExtensionE2ETests.ps1 -Workspace [WorkingDirectory]" Parser="TRX"/>
+  </TestJob>
+</TestJobGroup>

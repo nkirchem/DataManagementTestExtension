@@ -1,0 +1,41 @@
+{
+  "$schema": "./src/node_modules/@microsoft/azureportal-build/lib/definitions/extension.config.schema.json",
+  "name": "DataManagementTest",
+  "deployment": {
+    "generationType": "rp"
+  },
+  "devServer": {
+    "sideLoadTarget": {
+      "baseUrl": "https://localhost:55555/Portal",
+      "view": "ResourceListView.ReactView"
+    }
+  },
+  "environment": {
+    "deepmergeProperties": [
+      "ArgBrowseOptions",
+      "features"
+    ],
+    "*": {
+      "enablePortalLogging": true,
+      "armApiVersion": "2014-04-01",
+      "reflowReadyDefault": true,
+      "trustedDomains": [],
+      "argbrowseoptions": {
+        "MyResource": "Force"
+      }
+    },
+    "df.onecloud.azure-test.net": {},
+    "onestb.cloudapp.net": {},
+    "portal.azure.cn": {},
+    "portal.azure.com": {
+      "features": {
+        "regionSegments": true
+      }
+    },
+    "portal.azure.us": {},
+    "localhost#55555": {
+      "armEndpoint": "https://management.azure.com",
+      "trustedDomains": ["localhost"]
+    }
+  }
+}

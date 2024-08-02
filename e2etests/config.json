@@ -1,0 +1,38 @@
+﻿{
+  "playwright": {
+    "browser": "chrome",
+    "resolution": {
+      "width": 1280,
+      "height": 960
+    },
+    "options": {
+      "headless": false
+    }
+  },
+  "capabilities": {
+    "browserName": "chrome",
+    "chromeOptions": {
+      "args": [
+        "no-sandbox",
+        "window-size=1280,960"
+      ]
+    }
+  },
+  "chromeDriverPath": "./node_modules/chromedriver/lib/chromedriver/chromedriver.exe",
+  "testRetries": 2,
+  "portalUrl": "https://portal.azure.com",
+  "aadAuthorityUrl": "https://login.windows-ppe.net/83abe5cd-bcc3-441a-bd86-e6a75360cecc",
+  "armEndpoint": "https://management.azure.com/",
+  "subscriptionId": "",
+  "subscriptionName": "",
+  "armVersion": "2014-04-01",
+  "enableFiddler": "false",
+  "locationDescription": "",
+  "locationId": "",
+  "managementEndpoint": "https://management.core.windows.net/",
+  "allowUnauthorizedCert": "true",
+  "USER_EMAIL_LIVE": "",
+  "SECRET_PATH": "",
+  "partnerTeamEmail": "",
+  "browserAutomation": "playwright"
+}
