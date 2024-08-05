@@ -3,7 +3,7 @@
   "stringSource": "./GetStartedStrings.resjson",
   "view": {
     "kind": "GetStarted",
-    "export": true,
+    "export": false,
     "parameters": [
       {
         "name": "id",

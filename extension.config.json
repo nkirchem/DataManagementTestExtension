@@ -7,7 +7,7 @@
   "devServer": {
     "sideLoadTarget": {
       "baseUrl": "https://localhost:55555/Portal",
-      "view": "ResourceListView.ReactView"
+      "view": "SubscriptionListView.ReactView"
     }
   },
   "environment": {
